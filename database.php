@@ -17,11 +17,12 @@ class Database extends PDO {
 		$password = $this->encryptPassword($password);
 		$statement->bindValue(':password', $password);
 		$statement->execute();
+		
 		if($statement->rowCount() == 0){
-			return false;
-		}else{
-				return $statement->fetch(PDO::FETCH_ASSOC);
+			return NULL;
 		}
+		
+		return  $statement->fetch(PDO::FETCH_ASSOC);	
 	}
 	
 	function addUserToDatabase($username, $password, $type, $active=true) {
@@ -51,6 +52,41 @@ class Database extends PDO {
 	
 	private function encryptPassword($password){
 		return hash("sha256","^7~Q?zÉ".$password);
+	}
+	
+	
+	function insertSession($userID, $sessionID) {
+		$statement = $this->prepare("INSERT INTO `sessions` (`id`,`userID`,`sessionID`,`timestamp`,`lastSeen`) VALUES (NULL,:userID,:sessionID,UNIX_TIMESTAMP(),'login.php')");
+		$statement->bindParam(':userID',$userID);
+		$statement->bindParam(':sessionID',$sessionID);
+		
+		return $statement->execute();
+	}
+	
+	function updateSession($sessionID, $lastSeen){
+		$statement = $this->prepare("UPDATE `sessions` SET lastSeen = :lastSeen, timestamp = UNIX_TIMESTAMP() WHERE sessionID = :sessionID");
+		
+		$statement->bindParam(':lastSeen',$lastSeen);
+		$statement->bindParam(':sessionID',$sessionID);
+		
+		return $statement->execute();
+	}
+	
+	function lookupSession($sessionID) {
+		$statement = $this->prepare("SELECT 'userID' FROM sessions WHERE sessionID = :sessionID LIMIT 1");
+		$statement->bindParam(':sessionID',$sessionID);
+		
+		$statement->execute();
+		return $statement->fetchColumn();
+	}
+	
+	function deleteSession($sessionID) {
+		$statement = $this->prepare("DELETE FROM sessions WHERE sessionID = :sessionID LIMIT 1");
+		$statement->bindParam(':sessionID',$sessionID);
+		
+		$statement->execute();
+		
+		return $statement->rowCount();
 	}
 }
 
