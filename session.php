@@ -9,12 +9,21 @@ class Session {
 	
 	function login($userID) {
 		global $database;
-		$database->insertSession($userID,session_id());
+		$result = $database->insertSession($userID,session_id());
+		
+		// Save this stuff in the session as it'll come in useful for page descriptions
+		$_SESSION['id'] = $userID;
+		$_SESSION['username'] = $result['username'];
+		$_SESSION['name'] = $result['name'];
+		$_SESSION['email'] = $result['email'];
+		$_SESSION['type'] = $result['type'];
 	}
 	
 	function logout() {
 		global $database;
-		return $database->deleteSession(session_id());
+		$sessionID = session_id();
+		session_destroy(); // <-- We don't need this anymore as we'll be out of the session
+		return $database->deleteSession($sessionID);
 	}
 	
 	function checkSession(){

@@ -59,8 +59,17 @@ class Database extends PDO {
 		$statement = $this->prepare("INSERT INTO `sessions` (`id`,`userID`,`sessionID`,`timestamp`,`lastSeen`) VALUES (NULL,:userID,:sessionID,UNIX_TIMESTAMP(),'login.php')");
 		$statement->bindParam(':userID',$userID);
 		$statement->bindParam(':sessionID',$sessionID);
+		 
+		$statement->execute();
+		if($statement->rowCount() == 0){
+			return NULL;
+		}
 		
-		return $statement->execute();
+		// Return user information.
+		$statement = $this->prepare("SELECT username, email, name, type FROM users WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$userID);
+		$statement->execute();
+		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
 	
 	function updateSession($sessionID, $lastSeen){
