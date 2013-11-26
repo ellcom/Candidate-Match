@@ -1,3 +1,7 @@
 {include file="header.tpl" title="Homepage"}
-This is the Homepage!
+
+
+<h1>Helloo {$myvar|default:"Paul"}</h1
+
+
 {include file="footer.tpl"}

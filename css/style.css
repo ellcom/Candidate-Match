@@ -1,0 +1,148 @@
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Open Sans', sans-serif;
+	line-height: 36px;
+}
+
+a, p, label, span {
+	font-family: 'Open Sans', sans-serif;
+}
+
+p {
+	margin-bottom: 9px;
+}
+
+body {
+	background: #eee;
+}
+
+header {
+	margin: 0 auto;
+	padding: 10px 0;
+	width: 800px;
+}
+
+header h1 {
+	font-size: 40px;
+	font-weight: 800;
+	text-align: center;
+	margin: 30px 0;
+}
+
+header nav {
+	background: white;
+	padding: 15px 20px;
+	margin: 15px 0;
+}
+
+header nav a {
+	margin-right: 16px;
+	color: #333;
+	border-bottom: 1px #666 solid;
+	
+	font-size: 14	px;
+	font-weight: bold;
+	
+	padding: 6px 10px;
+	text-decoration: none;
+}
+
+header nav a:hover {
+	color: #09f;
+	border-bottom: 1px #0099ff solid;
+}
+
+
+section#main-matter {
+	background: white;
+	margin: 0 auto;
+	width: 800px;
+}
+
+form#login {
+	display: block;
+	margin: 0 auto;
+	padding: 20px;
+	width: 340px;
+}
+
+form#login span {
+	background: #e40;
+	border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+	color: white;
+	display: block;
+	font-size: 14px;
+	font-weight: 800;
+	margin-bottom: 10px;
+	padding: 5px 20px;
+	
+	text-align: center;
+	width: 100%-40px;
+	
+}
+
+form#login input[type='text'], form#login input[type='password'] {
+	float: right;
+}
+
+form#login label {
+	float: left;
+	line-height: 33px;
+}
+
+form#login button {
+	display: block;
+	float: right;
+	padding: 8px 20px;
+	margin: 10px 0;
+}
+
+input[type='text'], input[type='password'] {
+	border: 1px solid #999;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 16px;
+	line-height: 20px;
+	outline: none;
+	padding: 6px;
+}
+
+label {
+	font-size: 14px;
+	display: inline-block;
+}
+
+button {
+	background: linear-gradient(to bottom, #a0d4ec 0%, #0f7bb5 100%) white;
+	border: 1px solid #0f7bb5;
+	color: #12628e;
+	font-size: 14px;
+	font-weight: 800;
+	padding: 5px 10px;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-shadow: 0 1px 1px #a0d4ec;
+}
+
+button:active {
+	background: linear-gradient(to bottom, #0f7bb5 0%, #a0d4ec 100%) white;
+}
+
+input[type='password'] {
+	color: purple;
+}
+
+.clear {
+	clear: both;
+}
+::selection {
+	background: rgb(111, 0, 255);
+	color: white;
+}
+
+::-moz-selection {
+	background: rgb(111, 0, 255);
+	color: white;
+}
