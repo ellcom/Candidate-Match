@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2013 at 07:51 PM
+-- Generation Time: Dec 02, 2013 at 11:39 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -29,46 +29,41 @@ USE `menglingsdb`;
 --
 
 CREATE TABLE IF NOT EXISTS `candidateanswers` (
-  `CandidateAnswerID` int(11) NOT NULL AUTO_INCREMENT,
-  `QuestionID` int(11) NOT NULL,
-  `CandidateID` int(11) NOT NULL,
-  `Answer` int(11) NOT NULL,
-  `Justification` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`CandidateAnswerID`),
-  KEY `QUESTION` (`QuestionID`),
-  KEY `CANDIDATE` (`CandidateID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `questionID` int(11) unsigned NOT NULL,
+  `candidateID` int(11) unsigned NOT NULL,
+  `answer` int(1) unsigned NOT NULL,
+  `justification` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionID` (`questionID`),
+  KEY `candidateID` (`candidateID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `candidateanswers`
 --
 
-INSERT INTO `candidateanswers` (`CandidateAnswerID`, `QuestionID`, `CandidateID`, `Answer`, `Justification`) VALUES
-(1, 1, 1, 5, NULL),
-(2, 1, 2, 4, NULL),
-(3, 1, 3, 4, NULL),
-(4, 1, 4, 3, NULL),
-(5, 1, 5, 5, NULL),
-(6, 2, 1, 5, NULL),
-(7, 2, 2, 2, NULL),
-(8, 2, 3, 4, NULL),
-(9, 2, 4, 3, NULL),
-(10, 2, 5, 2, NULL),
-(11, 3, 1, 5, NULL),
-(12, 3, 2, 5, NULL),
-(13, 3, 3, 3, NULL),
-(14, 3, 4, 1, NULL),
-(15, 3, 5, 1, NULL),
-(16, 4, 1, 2, NULL),
-(17, 4, 2, 2, NULL),
-(18, 4, 3, 2, NULL),
-(19, 4, 4, 2, NULL),
-(20, 4, 5, 2, NULL),
-(21, 5, 1, 3, NULL),
-(22, 5, 2, 4, NULL),
-(23, 5, 3, 2, NULL),
-(24, 5, 4, 3, NULL),
-(25, 5, 5, 1, NULL);
+INSERT INTO `candidateanswers` (`id`, `questionID`, `candidateID`, `answer`, `justification`) VALUES
+(21, 1, 1, 1, NULL),
+(22, 2, 1, 1, NULL),
+(23, 3, 1, 1, NULL),
+(24, 4, 1, 1, NULL),
+(25, 5, 1, 1, NULL),
+(26, 6, 1, 1, NULL),
+(27, 7, 1, 1, NULL),
+(28, 8, 1, 1, NULL),
+(29, 9, 1, 1, NULL),
+(30, 10, 1, 1, NULL),
+(31, 1, 2, 1, NULL),
+(32, 2, 2, 2, NULL),
+(33, 3, 2, 3, NULL),
+(34, 4, 2, 4, NULL),
+(35, 5, 2, 5, NULL),
+(36, 6, 2, 5, NULL),
+(37, 7, 2, 4, NULL),
+(38, 8, 2, 3, NULL),
+(39, 9, 2, 2, NULL),
+(40, 10, 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -77,27 +72,51 @@ INSERT INTO `candidateanswers` (`CandidateAnswerID`, `QuestionID`, `CandidateID`
 --
 
 CREATE TABLE IF NOT EXISTS `candidates` (
-  `CandidateID` int(11) NOT NULL AUTO_INCREMENT,
-  `ElectionID` int(11) NOT NULL,
-  `FirstName` varchar(20) NOT NULL,
-  `Surname` varchar(20) NOT NULL,
-  `Picture` varchar(150) DEFAULT NULL,
-  `ManifestoLink` varchar(150) DEFAULT NULL,
-  `RecommendationCount` int(11) NOT NULL,
-  PRIMARY KEY (`CandidateID`),
-  KEY `ELECTION` (`ElectionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userID` int(11) unsigned DEFAULT NULL,
+  `electionID` int(11) unsigned DEFAULT NULL,
+  `recomendationCount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userID` (`userID`),
+  KEY `electionID` (`electionID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `candidates`
 --
 
-INSERT INTO `candidates` (`CandidateID`, `ElectionID`, `FirstName`, `Surname`, `Picture`, `ManifestoLink`, `RecommendationCount`) VALUES
-(1, 1, 'Ben', 'Thurlow', NULL, NULL, 0),
-(2, 1, 'Garlen', 'Saldanha', NULL, NULL, 0),
-(3, 1, 'Elliot', 'Adderton', NULL, NULL, 0),
-(4, 1, 'Andrew', 'Benfield', NULL, NULL, 0),
-(5, 1, 'David', 'Hamilton', NULL, NULL, 0);
+INSERT INTO `candidates` (`id`, `userID`, `electionID`, `recomendationCount`) VALUES
+(1, 2, 1, NULL),
+(2, 3, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `electionquestions`
+--
+
+CREATE TABLE IF NOT EXISTS `electionquestions` (
+  `electionID` int(11) unsigned NOT NULL,
+  `questionID` int(11) unsigned NOT NULL,
+  KEY `electionID` (`electionID`),
+  KEY `questionID` (`questionID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `electionquestions`
+--
+
+INSERT INTO `electionquestions` (`electionID`, `questionID`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10);
 
 -- --------------------------------------------------------
 
@@ -106,18 +125,18 @@ INSERT INTO `candidates` (`CandidateID`, `ElectionID`, `FirstName`, `Surname`, `
 --
 
 CREATE TABLE IF NOT EXISTS `elections` (
-  `ElectionID` int(11) NOT NULL AUTO_INCREMENT,
-  `ElectionName` varchar(150) NOT NULL,
-  `ElectionYear` int(11) NOT NULL,
-  PRIMARY KEY (`ElectionID`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `timestamp` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `elections`
 --
 
-INSERT INTO `elections` (`ElectionID`, `ElectionName`, `ElectionYear`) VALUES
-(1, 'First LGoS student president election', 2013);
+INSERT INTO `elections` (`id`, `name`, `timestamp`) VALUES
+(1, 'First Election', 1385911631);
 
 -- --------------------------------------------------------
 
@@ -126,73 +145,92 @@ INSERT INTO `elections` (`ElectionID`, `ElectionName`, `ElectionYear`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `questions` (
-  `QuestionID` int(11) NOT NULL AUTO_INCREMENT,
-  `QuestionText` varchar(150) NOT NULL,
-  `Category` varchar(30) DEFAULT NULL,
-  `Divisiveness` int(11) DEFAULT NULL,
-  `Selected` tinyint(4) NOT NULL,
-  PRIMARY KEY (`QuestionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `questionText` varchar(200) NOT NULL DEFAULT '',
+  `category` int(11) DEFAULT NULL,
+  `divisiveness` int(11) DEFAULT NULL,
+  `selected` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`QuestionID`, `QuestionText`, `Category`, `Divisiveness`, `Selected`) VALUES
-(1, 'Do you agree with £9,000 tuition fees?', NULL, NULL, 0),
-(2, 'How much do you agree with the following: Ben is great', NULL, NULL, 0),
-(3, 'Is metal music good?', NULL, NULL, 0),
-(4, 'Do you think David Cameron is a good prime minister?', NULL, NULL, 0),
-(5, 'Should Comp Sci labs be open 24/7?', NULL, NULL, 0);
+INSERT INTO `questions` (`id`, `questionText`, `category`, `divisiveness`, `selected`) VALUES
+(1, 'Should we kill 3 billion people to save Earth?', NULL, NULL, 0),
+(2, 'Should Ben cut his hair?', NULL, NULL, 0),
+(3, 'Is Garlen the coolest guy you know?', NULL, NULL, 0),
+(4, 'Does Elliot often say the gayest thing of the day?', NULL, NULL, 0),
+(5, 'Are pears a tasty fruit?', NULL, NULL, 0),
+(6, 'Stack Overflow is the most useful website', NULL, NULL, 0),
+(7, 'Bing is a superior search engine to Google', NULL, NULL, 0),
+(8, 'Elliot is more strawberry blonde than ginger ', NULL, NULL, 0),
+(9, 'Garlen is too tall for his own good', NULL, NULL, 0),
+(10, 'Tesco is Garlens favourite shop in the world', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tempinputtest`
+-- Table structure for table `sessions`
 --
 
-CREATE TABLE IF NOT EXISTS `tempinputtest` (
-  `inputID` int(11) NOT NULL AUTO_INCREMENT,
-  `answer` int(11) NOT NULL,
-  PRIMARY KEY (`inputID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userID` int(11) unsigned NOT NULL,
+  `sessionID` varchar(40) NOT NULL DEFAULT '',
+  `timestamp` int(11) DEFAULT NULL,
+  `lastSeen` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userID` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `tempinputtest`
+-- Table structure for table `users`
 --
 
-INSERT INTO `tempinputtest` (`inputID`, `answer`) VALUES
-(1, 3),
-(2, 5),
-(3, 2),
-(4, 4),
-(5, 1),
-(6, 3),
-(7, 5),
-(8, 1),
-(9, 3),
-(10, 5),
-(11, 1),
-(12, 1),
-(13, 1),
-(14, 5),
-(15, 5),
-(16, 1),
-(17, 2),
-(18, 2),
-(19, 2),
-(20, 2),
-(21, 2),
-(22, 2),
-(23, 1),
-(24, 3),
-(25, 1),
-(26, 1),
-(27, 1),
-(28, 1),
-(29, 1),
-(30, 1),
-(31, 1);
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL DEFAULT '',
+  `password` varchar(64) NOT NULL DEFAULT '',
+  `type` varchar(11) NOT NULL DEFAULT '',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `email` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `type`, `active`, `email`, `name`) VALUES
+(1, 'admin', '8eedf5e5ff3df74b923c545df2e0af1472d8245bc46ff24298774b72cd0a043b', 'admin', 1, 'admin@localhost', NULL),
+(2, 'BenThurlow', 'pass123', 'candidate', 1, 'ben@localhost.co.uk', 'Ben'),
+(3, 'JoeBloggs', 'pass456', 'candidate', 1, 'joebloggs@localhost.co.uk', 'Joe');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usertypes`
+--
+
+CREATE TABLE IF NOT EXISTS `usertypes` (
+  `name` varchar(10) NOT NULL DEFAULT '',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `usertypes`
+--
+
+INSERT INTO `usertypes` (`name`) VALUES
+('admin'),
+('candidate');
 
 -- --------------------------------------------------------
 
@@ -201,12 +239,12 @@ INSERT INTO `tempinputtest` (`inputID`, `answer`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `voteranswers` (
-  `VoterAnswerID` int(11) NOT NULL AUTO_INCREMENT,
-  `QuestionID` int(11) NOT NULL,
-  `Answer` int(11) NOT NULL,
-  `AnswerCount` int(11) NOT NULL,
-  PRIMARY KEY (`VoterAnswerID`),
-  UNIQUE KEY `QUESTION` (`QuestionID`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `questionID` int(11) unsigned NOT NULL,
+  `answer` int(1) unsigned NOT NULL,
+  `count` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionID` (`questionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -217,20 +255,40 @@ CREATE TABLE IF NOT EXISTS `voteranswers` (
 -- Constraints for table `candidateanswers`
 --
 ALTER TABLE `candidateanswers`
-  ADD CONSTRAINT `candidateanswers_ibfk_1` FOREIGN KEY (`CandidateID`) REFERENCES `candidates` (`CandidateID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `candidateanswers_ibfk_2` FOREIGN KEY (`QuestionID`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `candidateanswers_ibfk_1` FOREIGN KEY (`questionID`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `candidateanswers_ibfk_2` FOREIGN KEY (`candidateID`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `candidates`
 --
 ALTER TABLE `candidates`
-  ADD CONSTRAINT `candidates_ibfk_1` FOREIGN KEY (`ElectionID`) REFERENCES `elections` (`ElectionID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `candidates_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `candidates_ibfk_2` FOREIGN KEY (`electionID`) REFERENCES `elections` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `electionquestions`
+--
+ALTER TABLE `electionquestions`
+  ADD CONSTRAINT `electionquestions_ibfk_1` FOREIGN KEY (`electionID`) REFERENCES `elections` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `electionquestions_ibfk_2` FOREIGN KEY (`questionID`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`type`) REFERENCES `usertypes` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `voteranswers`
 --
 ALTER TABLE `voteranswers`
-  ADD CONSTRAINT `voteranswers_ibfk_1` FOREIGN KEY (`QuestionID`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `voteranswers_ibfk_1` FOREIGN KEY (`questionID`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
