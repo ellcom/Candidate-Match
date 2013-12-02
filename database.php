@@ -97,6 +97,241 @@ class Database extends PDO {
 		
 		return $statement->rowCount();
 	}
+
+
+	// FUNCTION updateAnswer
+	// ==================================================
+	// updates an existing answer for a candidate in the
+	// database.
+	private function updateAnswer($input, $questionID, $candidateID) 
+	{
+		$update_query = $this->prepare("UPDATE candidateanswers SET answer = :input WHERE questionID = :questionID AND candidateID = :candidateID");
+		$update_query->bindParam(':input', $input);
+		$update_query->bindParam(':questionID', $questionID);
+		$update_query->bindParam(':candidateID', $candidateID);
+
+		return $update_query->execute();
+	}	
+	// ==================================================
+	// END FUNCTION updateAnswer
+
+
+	// FUNCTION addAnswer
+	// ==================================================
+	// adds a new answer in the database provided one do-
+	// es not exist already
+	private function addAnswer($input, $questionID, $candidateID) 
+	{
+		$update_query = $this->prepare("INSERT INTO candidateanswers VALUES (NULL, :questionID, :candidateID, :input, NULL)");
+		$update_query->bindParam(':questionID', $questionID);
+		$update_query->bindParam(':candidateID', $candidateID);
+		$update_query->bindParam(':input', $input);
+
+		return $update_query->execute();
+	}
+	// ==================================================
+	// END FUNCTION addAnswer
+
+
+	// FUNCTION checkForAnswer
+	// ==================================================
+	// checks if an answer exists for a candidate in the
+	// database. If check_query is returned NULL, there 
+	// is no question answer for that candidate.
+	private function checkForAnswer($questionID, $candidateID) 
+	{
+		$check_query = $this->prepare("SELECT candidateID FROM candidateanswers WHERE questionID = :questionID AND candidateID = :candidateID");
+		$check_query->bindParam(':questionID', $questionID);
+		$check_query->bindParam(':candidateID', $candidateID);
+
+		$check_query->execute();
+		$check_query->fetchAll();
+
+		if(sizeof($check_query) == 0)
+		{
+			$check_query = NULL;
+		}
+
+		return $check_query;
+	}
+	// ==================================================
+	// END FUNCTION checkForAnswer
+
+
+	// FUNCTION insertAnswer
+	// ==================================================
+	// attempts to add a candidate answer to the database
+	// will change the existing answer if one already
+	// exists
+	function insertAnswer($input, $questionID, $candidateID)
+	{
+		$present = $this->checkForAnswer($questionID, $candidateID);
+
+		if($present != NULL) // answer already exists, so update it
+		{
+			$this->updateAnswer($input, $questionID, $candidateID);
+		}
+		else // answer doesnt exist, so add it.
+		{
+			$this->addAnswer($input, $questionID, $candidateID);
+		}
+	}
+	// ==================================================
+	// END FUNCTION insertAnswer
+
+
+	// FUNCTION returnQuestionData
+	// ==================================================
+	// returns a associative array containing all candid-
+	// ate answers from the database.
+	function returnQuestionData() 
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT id, QuestionText FROM questions ORDER BY id ASC");
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateAnswerData): '.$e->getMessage();
+		}		
+
+		// return data as an associative array
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// ==================================================
+	// END FUNCTION returnQuestionData
+
+
+	// FUNCTION returnCandidateAnswerData
+	// ==================================================
+	// returns a associative array containing all candid-
+	// ate answers from the database.
+	function returnCandidateAnswerData() 
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT questionID, candidateID, answer FROM candidateanswers ORDER BY candidateID ASC, questionID ASC");
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateAnswerData): '.$e->getMessage();
+		}		
+
+		// return data as an associative array
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// ==================================================
+	// END FUNCTION returnCandidateAnswerData
+
+
+	// FUNCTION tallyCandidateAnswers
+	// ==================================================
+	// returns an associative array containing candidate
+	// answer tallies for each question. For use in 
+	// calculating the divisiveness of a question.
+	function tallyCandidateAnswers()
+	{
+		$candidateAnswerData;
+
+		// obtain data from the database
+		foreach ($this->returnCandidateAnswerData() as $row) 
+		{
+			// store each row in new array
+			$candidateAnswerData[] = $row;
+		}
+
+		// variable to store the tally as an array
+		$candidateAnswerTally = NULL;
+
+		// for each candidateAnswer record
+		for ($i=0; $i < sizeof($candidateAnswerData); $i++) 
+		{ 
+			// determine if an array exists for the question already - if not, add one
+			if ($candidateAnswerTally == NULL)
+			{
+				//echo 'Question not in tally yet - adding Q to tally<br>';
+				$candidateAnswerTally[] = array('questionID'=> $candidateAnswerData[$i]['questionID'], 'tally'=>array(0,0,0,0,0)); 
+			}
+			else
+			{
+				// check if the value exists within the tally already
+ 				for ($j=0; $j < sizeof($candidateAnswerTally); $j++) { 
+					if ($candidateAnswerData[$i]['questionID'] == $candidateAnswerTally[$j]['questionID'])
+					{
+						$found = true;
+						break;
+					}
+					else // not found yet
+					{
+						$found = false;
+					}
+				}
+				// if it isn't, generate a new array to store the information
+				if ($found == false)
+				{
+					//echo 'Question not in tally yet - adding Q to tally<br>';
+					$candidateAnswerTally[] = array('questionID'=>$candidateAnswerData[$i]['questionID'], 'tally'=>array(0,0,0,0,0)); 
+				}
+			}
+
+			// adjust the according tally
+			for ($j=0; $j < sizeof($candidateAnswerTally) ; $j++) { 
+				if ($candidateAnswerTally[$j]['questionID'] == $candidateAnswerData[$i]['questionID'])
+				{
+					$array_slot = $candidateAnswerData[$i]['answer']-1;
+					// add one to the appropriate tally slot.
+					$candidateAnswerTally[$j]['tally'][$array_slot]++;
+				}			
+			}
+		}
+		return $candidateAnswerTally;
+	}
+	// ==================================================
+	// END FUNCTION tallyCandidateAnswers
+
+
+	// FUNCTION returnDataComparison
+	// ==================================================
+	// Given an array of candidateID's
+	// returns a 2D array containing the candidateID and
+	// the candidates answer set for the questions.
+	function returnDataComparison($candidateIDs)
+	{
+		$comparisonArray;
+
+		// obtain data from the database
+		foreach ($this->returnCandidateAnswerData() as $row) 
+		{
+			// store each row in new array
+			$candidateAnswerData[] = $row;
+		}
+
+		// set up the structure for id's
+		foreach ($candidateIDs as $id) 
+		{
+			$comparisonArray[] = array('candidateID'=>$id, 'answers'=>array());
+		}
+
+		// add in the answers in ascending question order
+		foreach ($candidateAnswerData as $row)
+		{
+			for ($i=0; $i < sizeof($comparisonArray); $i++) 
+			{ 
+				if ($comparisonArray[$i]['candidateID'] == $row['candidateID']) 
+				{
+					$comparisonArray[$i]['answers'][] = $row['answer']; 
+				}
+			}
+		}
+
+		return $comparisonArray;
+	}
+	// ==================================================
+	// END FUNCTION returnDataComparison
+
+
 }
 
 class DBStatement extends PDOStatement {
