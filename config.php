@@ -9,9 +9,9 @@ if (strpos($_SERVER["REQUEST_URI"], 'config.php') !== FALSE){
 }
 
 // Change to your apache directory for the site
-$ROOT_FOLDER = "/Users/elliot/Sites/Candidate-Match";
+$ROOT_FOLDER = "C:\xampp\htdocs\Candidate-Match";
 // Change to your Smarty folder
-$SMARTY_FOLDER = "/Users/elliot/Sites/Smarty-3.1.15";
+$SMARTY_FOLDER = "C:\Users\Garlen\Downloads\Smarty-3.1.15";
 
 // Database
 // This should be set as a sysenv var when pushed to the deployment server
