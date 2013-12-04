@@ -32,6 +32,7 @@
 <nav>
 <a href="/CM/">Home</a>
 <a href="/CM/voters.php">Voters</a>
+<a href="/CM/results.php">Voter's Results</a>
 <a href="/CM/login.php">Candidate Login</a>
 </nav>
 
