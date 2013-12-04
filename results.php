@@ -1,5 +1,5 @@
 <?php 
 require_once('config.php');
-$smarty->display('voters.tpl');
+$smarty->display('results.tpl');
 
 ?>
