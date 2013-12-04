@@ -99,6 +99,11 @@ class Database extends PDO {
 	}
 
 
+
+	// =======================================================================================
+	// ============================ ADDING/UPDATING DATA METHODS =============================
+	// =======================================================================================
+
 	// FUNCTION updateAnswer
 	// ==================================================
 	// updates an existing answer for a candidate in the
@@ -180,11 +185,60 @@ class Database extends PDO {
 	// END FUNCTION insertAnswer
 
 
+	// FUNCTION updateDivisiveness
+	// ==================================================
+	// attempts to add a candidate answer to the database
+	// will change the existing answer if one already
+	// exists
+	function updateDivisiveness()
+	{
+		$tally = $this->tallyCandidateAnswers();
+
+		print_r($tally);
+
+		foreach ($tally as $question) 
+		{			
+			// called from stats.php
+			$statObj = new stats($question['tally']);
+			$divisiveness = $statObj->getDivisiveness()/4;
+			$questionID = $question['questionID'];
+
+			echo $divisiveness.' '.$questionID.'<br>';
+
+			$update_query = $this->prepare("UPDATE questions SET divisiveness = :divisiveness WHERE id = :questionID");
+			$update_query->bindParam(':divisiveness', $divisiveness);
+			$update_query->bindParam(':questionID', $questionID);
+
+			$update_query->execute();
+		}
+	}
+	// ==================================================
+	// END FUNCTION updateDivisiveness
+
+	function returnDivisiveness()
+	{
+		try
+		{
+			$check_query = $this->prepare("SELECT divisiveness FROM questions");
+			$check_query->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
+		}
+
+		return $check_query->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	// =======================================================================================
+	// ============================== RETURNING DATA METHODS =================================
+	// =======================================================================================
+
 	// FUNCTION returnDataForCandidate
 	// ==================================================
 	// returns a associative array containing data about
 	// a specific candidateID
-	function returnDataForCandidate($candidateID) 
+	function returnDataForCandidate($candidateID)
 	{
 		try // query the database
 		{
@@ -257,12 +311,35 @@ class Database extends PDO {
 	// END FUNCTION returnQuestionData
 
 
-	// FUNCTION returnQuestionDataForCandidate
+	// FUNCTION returnElectionQuestionData
+	// ==================================================
+	// returns a associative array containing the chosen
+	// q's (most divisive) from the db for printing out.
+	function returnElectionQuestionData() 
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT electionquestions.questionID, questions.questionText FROM questions INNER JOIN electionquestions ON questions.id=electionquestions.questionID");
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnElectionQuestionData): '.$e->getMessage();
+		}		
+
+		// return data as an associative array
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// ==================================================
+	// END FUNCTION returnElectionQuestionData
+
+
+	// FUNCTION returnAnswerDataForCandidate
 	// ==================================================
 	// Given an array of candidateID's
 	// returns a 2D array containing the candidateID and
 	// the candidates answer set for the questions.
-	function returnQuestionDataForCandidate($candidateID)
+	function returnAnswerDataForCandidate($candidateID)
 	{
 		try // query the database
 		{
@@ -278,15 +355,15 @@ class Database extends PDO {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	// ==================================================
-	// END FUNCTION returnQuestionDataForCandidate
+	// END FUNCTION returnAnswerDataForCandidate
 
 
-	// FUNCTION returnQuestionDataComparison
+	// FUNCTION returnAnswerDataComparison
 	// ==================================================
 	// Given an array of candidateID's
 	// returns a 2D array containing the candidateID and
 	// the candidates answer set for the questions.
-	function returnQuestionDataComparison($candidateIDs)
+	function returnAnswerDataComparison($candidateIDs)
 	{
 		$comparisonArray;
 
@@ -318,7 +395,7 @@ class Database extends PDO {
 		return $comparisonArray;
 	}
 	// ==================================================
-	// END FUNCTION returnQuestionDataComparison
+	// END FUNCTION returnAnswerDataComparison
 
 
 	// FUNCTION returnCandidateAnswerData
