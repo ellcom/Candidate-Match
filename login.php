@@ -17,4 +17,8 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 
 $smarty->display("login.tpl");
 
+$questionArray = $database->returnQuestionData();
+
+require_once("question.php");
+
 ?>
