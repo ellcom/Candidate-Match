@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2013 at 11:39 PM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: Dec 04, 2013 at 02:20 PM
+-- Server version: 5.6.11
+-- PHP Version: 5.5.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `menglingsdb`
+-- Database: `match`
 --
-CREATE DATABASE IF NOT EXISTS `menglingsdb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `menglingsdb`;
+CREATE DATABASE IF NOT EXISTS `match` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `match`;
 
 -- --------------------------------------------------------
 
