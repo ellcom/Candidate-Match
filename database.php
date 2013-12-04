@@ -4,7 +4,7 @@ class Database extends PDO {
 
 	function __construct() {
     	try {
-    		parent::__construct('mysql:dbname=menglingsdb;host=localhost', getenv("MYSQL_USER"), getenv("MYSQL_PASSWORD"));
+    		parent::__construct('mysql:dbname=match;host=localhost', getenv("MYSQL_USER"), getenv("MYSQL_PASSWORD"));
     		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('DBStatement', array($this)));
 		} catch (PDOException $e) {
 			throw $e;
