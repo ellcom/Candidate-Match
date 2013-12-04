@@ -4,7 +4,7 @@ class Database extends PDO {
 
 	function __construct() {
     	try {
-    		parent::__construct('mysql:dbname=match;host=localhost', getenv("MYSQL_USER"), getenv("MYSQL_PASSWORD"));
+    		parent::__construct('mysql:dbname=menglingsdb;host=localhost', getenv("MYSQL_USER"), getenv("MYSQL_PASSWORD"));
     		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('DBStatement', array($this)));
 		} catch (PDOException $e) {
 			throw $e;
@@ -344,6 +344,30 @@ class Database extends PDO {
 	// END FUNCTION returnCandidateAnswerData
 
 
+	// FUNCTION returnCandidateAnswerDataForQuestion
+	// ==================================================
+	// returns a associative array containing all candid-
+	// ate answers for one question from the database.
+	function returnCandidateAnswerDataForQuestion($questionID) 
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT candidateID, answer FROM candidateanswers WHERE questionID = :questionID ORDER BY candidateID ASC");
+			$statement->bindParam(':questionID', $questionID);
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateAnswerData): '.$e->getMessage();
+		}		
+
+		// return data as an associative array
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// ==================================================
+	// END FUNCTION returnCandidateAnswerDataForQuestion
+
+
 	// FUNCTION tallyCandidateAnswers
 	// ==================================================
 	// returns an associative array containing candidate
@@ -408,6 +432,27 @@ class Database extends PDO {
 	}
 	// ==================================================
 	// END FUNCTION tallyCandidateAnswers
+
+
+	// FUNCTION compareUserAnswerToCandidates
+	// ==================================================
+	// returns an array containing the differences betw-
+	// een a users answer and all candidate answers for a
+	// given question.
+	function compareUserAnswerToCandidates($userAnswer, $questionID)
+	{
+		$candidateAnswers = $this->returnCandidateAnswerDataForQuestion($questionID);
+
+		foreach ($candidateAnswers as $row) 
+		{
+			$differences[] = abs($userAnswer - $row['answer']);
+		}
+
+		return $differences;
+	}
+	// ==================================================
+	// END FUNCTION compareUserAnswerToCandidates
+
 }
 
 class DBStatement extends PDOStatement {
