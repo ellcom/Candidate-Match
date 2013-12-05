@@ -7,7 +7,7 @@ foreach ($questionArray as $row)
 	// retrieves the specific data rows
 	$questionID = $row['id'];
 	$questionText = $row['QuestionText'];
-	// prints out the data recieved
+	// prints out the data received
 	echo 'Q'.$questionID.': '.$questionText.'<br><br>';
 	?>		<input type="radio" name="A<?php echo $questionID?>" value="1" onclick="document.getElementById('radio_info').innerHTML = '1';">Strongly Disagree
 			<input type="radio" name="A<?php echo $questionID?>" value="2" onclick="document.getElementById('radio_info').innerHTML = '2';">Disagree

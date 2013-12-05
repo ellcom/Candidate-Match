@@ -1,11 +1,15 @@
 <?php 
-
 class Graph1 {
 
-	function __construct() {
-	}
-	
-	function display() {
+	private $db;
+
+	function __construct($data) {
+		$i = 0;
+		foreach($data as $row) {
+			$cand_names[$i] = $row['name'];
+			$i++;
+		}
+		
     	?>
 		
 		<canvas id="graph1" height="400" width="400"></canvas>
@@ -20,22 +24,28 @@ class Graph1 {
 		<script>
 			
 			var data = {
-				labels : ["Candidate1","Candidate2","Candidate3","Candidate4","Candidate5","Candidate6","Candidate7"],
+				labels : [
+				<?php
+					$js_array = json_encode($cand_names);
+					echo $js_array;
+					
+				?>
+				],
 				datasets : [
 					{
 						fillColor : "rgba(220,220,220,0.5)",
 						strokeColor : "rgba(220,220,220,1)",
 						pointColor : "rgba(220,220,220,1)",
 						pointStrokeColor : "#fff",
-						data : [65,59,90,81,56,55,40]
-					},
-					{
+						data : [0,0,0,0,0,0,0]
+					}/*,
+					 {
 						fillColor : "rgba(151,187,205,0.5)",
 						strokeColor : "rgba(151,187,205,1)",
 						pointColor : "rgba(151,187,205,1)",
 						pointStrokeColor : "#fff",
 						data : [28,48,40,19,96,27,100]
-					}
+					} */
 				]
 				
 			}

@@ -1,6 +1,7 @@
 <?php 
 require_once("config.php");
 require_once("session.php");
+require_once("graph1.php");
 
 if(isset($_POST['username']) && isset($_POST['password'])){
 	$loginResult = $database->authenticationCredentials($_POST['username'], $_POST['password']);
@@ -20,5 +21,7 @@ $smarty->display("login.tpl");
 $questionArray = $database->returnQuestionData();
 
 require_once("question.php");
+
+$graph1 = new Graph1($database->getDataForCandidates());
 
 ?>
