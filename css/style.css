@@ -46,6 +46,11 @@ header nav a {
 	text-decoration: none;
 }
 
+header nav a.current {
+  border-bottom: 2px #333 solid;
+  padding: 6px 10px 5px;
+}
+
 header nav a:hover {
 	color: #09f;
 	border-bottom: 1px #0099ff solid;
@@ -55,8 +60,10 @@ header nav a:hover {
 section#main-matter {
 	background: white;
 	margin: 0 auto;
-	width: 800px;
+  padding: 10px;
+	width: 780px;
 }
+
 
 form#login {
 	display: block;
