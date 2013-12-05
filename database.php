@@ -249,7 +249,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id");
+			$statement = $this->prepare("SELECT candidates.id, candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id ORDER BY candidates.id");
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error
@@ -273,7 +273,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id  WHERE candidates.id = :candidateID");
+			$statement = $this->prepare("SELECT candidates.id, candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id  WHERE candidates.id = :candidateID ORDER BY candidates.id");
 			$statement->bindParam(':candidateID', $candidateID);
 			$statement->execute();
 		}
@@ -360,7 +360,7 @@ class Database extends PDO {
 	// END FUNCTION returnAnswerDataForCandidate
 
 
-		// FUNCTION returnAnswerDataForCandidate
+	// FUNCTION returnAnswerDataForCandidate
 	// ==================================================
 	// Given an array of candidateID's
 	// returns a 2D array containing the candidateID and
