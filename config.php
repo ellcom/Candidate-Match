@@ -13,10 +13,6 @@ define("ROOT_FOLDER","/Users/elliot/Sites/Candidate-Match");
 // Change to your Smarty folder
 define("SMARTY_FOLDER", "/Users/elliot/Sites/Smarty-3.1.15");
 
-$ROOT_FOLDER = "C:\xampp\htdocs\Candidate-Match";
-// Change to your Smarty folder
-$SMARTY_FOLDER = "C:\Users\Garlen\Downloads\Smarty-3.1.15";
-
 // Database
 // This should be set as a sysenv var when pushed to the deployment server
 putenv("MYSQL_USER=root");

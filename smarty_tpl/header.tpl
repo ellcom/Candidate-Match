@@ -6,8 +6,6 @@
 
   <title>Candidate Match{if $title} - {$title}{/if}</title>
   
-  <script src="scripts/Chart.js"></script>
-  
   <!-- Meta Ownership -->
   <meta name="description" content="Candidate Match System">
   <meta name="author" content="Andrew Benfield, Ben Thurlow, Elliot Adderton, Garlen Saldanha">
