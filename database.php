@@ -369,7 +369,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT candidateanswers.questionID, candidateanswers.answer FROM candidateanswers INNER JOIN electionquestions ON candidateanswers.questionID=electionquestions.questionID WHERE candidateanswers.candidateID = :candidateID ORDER BY id");
+			$statement = $this->prepare("SELECT candidateanswers.questionID, candidateanswers.answer, candidateanswers.justification FROM candidateanswers INNER JOIN electionquestions ON candidateanswers.questionID=electionquestions.questionID WHERE candidateanswers.candidateID = :candidateID ORDER BY id");
 			$statement->bindParam('candidateID', $candidateID);
 			$statement->execute();
 		}
