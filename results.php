@@ -20,12 +20,23 @@ $smarty->display('results.tpl');
 <div id="allSprysdiv">
 <?php
 
-	 
-	
+	$data = $database->returnDataForCandidates();
+	$size = sizeof($data);
+
 	// for the number of candidates create the set ammount of sprys
-	for ($i = 1; $i <= 10; $i++) {
-    $candidateData  = $database -> returnDataForCandidate($i);
+	for ($i = 0; $i < $size; $i++) {
+
+ 	$candidateData = $data[$i];
  	$name = $candidateData['name'];
+ 	$age = $candidateData['age']; 	
+ 	$gender = $candidateData['gender'];
+ 	$course = $candidateData['course'];
+ 	$website = $candidateData['manifestoLink'];
+ 	$candidateid = $candidateData['id'];
+
+ 	$questions = $database->returnElectionQuestionData();
+
+ 	
  //  print_r($candidateData);
 
 
@@ -35,7 +46,7 @@ $smarty->display('results.tpl');
                 	'.$name.'
                 </div>
         		<div id="rank">
-                	Ranking '.$i.'
+                	Ranking '.($i+1).'
                 </div>
         </div>
   		<div class="CollapsiblePanelContent">
@@ -44,33 +55,53 @@ $smarty->display('results.tpl');
             	<div id="topLeft">
    		    	 <img src="zito.jpg" width="120" height="120"  alt=""/></div>
             	<div id="topRight">
-                	NAME:'. $name.'
-                    <br/>AGE:
-                    <br/>GENDER:
-                    <br/>COURSE:
-                    <br/>WEBSITE:
+                	NAME: '. $name.'
+                    <br/>Age: '.$age.'
+                    <br/>Gender: '.$gender.'
+                    <br/>Course: '.$course.'
+                    <br/>Website: <a href="'.$website.'">Click here for Manifesto</a>
 
             	</div>
             </div>
             
             <div id="Bottom">
             <div  style="height:118px;width:420spx;border:1px solid #ccc;padding-left:10px;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-					Q1:Is Garlen to tall for his own good?
-                    <br/>Their answer:<span> agree</span>
+					
+            		';
+
+            		$candidatesAnswers = $database->returnElectionAnswerDataForCandidate($i+1);
+            		$qsize = sizeof($candidatesAnswers);
+
+
+            		for ($j=0; $j < $qsize; $j++) { 
+            			$questionID = $candidatesAnswers[$j]['questionID'];
+            			$answer = $candidatesAnswers[$j]['answer'];
+            			$justification = $candidatesAnswers[$j]['justification'];
+
+						$questionsQuestionID = $questions[$j]['questionID'];
+
+						// checking q's corresponds
+            			if ($questionID == $questionsQuestionID)
+						{
+							$questionText = $questions[$j]['questionText'];
+						}
+						else
+						{
+							$questionText = 'error';
+						}
+            			
+            			
+            		
+            		echo '<p>Q'.$questionID.': '.$questionText.'?
+                    <br/>Their answer:<span>'.$answer.'</span>
                     <br/>Your Answer: <span>agree</span>
-                    <br/><span>Well lets be honest he keeps hitting his head on doors and things</span>
-                    <p>Q2:Should we kill 3 billion people to save earth
-                    <br/>Their answer: <span> strongly disagree </span>
-                    <br/>Your anser: <span>Strongly Disagree </span>
-                    <p>Q3:Is Garlen to tall for his own good? 
-                    <br/>Their answer: <span> agree</span>
-                    <br/>Your Answer: <span>agree</span>
-                    <p>Q4:Should we kill 3 billion people to save earth and other form of life all over this incredible 
-                    planet that we call home and love it dearly
-                    <br/>Their answer:<span> strongly disagree</span>
-                    <br/>Your anser: <span> Strongly Disagree</span>
+                    <br/><span>'.$justification.'</span></p>';
+
+            		}
+			
+                  
                 
-			</div>
+		echo '	</div>
              
              
             </div>
@@ -85,7 +116,7 @@ $smarty->display('results.tpl');
 
 
 <script type="text/javascript">
-
+var CollapsiblePanel0  = new Spry.Widget.CollapsiblePanel("CollapsiblePanel0",  {contentIsOpen:true});
 var CollapsiblePanel1  = new Spry.Widget.CollapsiblePanel("CollapsiblePanel1",  {contentIsOpen:false});
 var CollapsiblePanel2  = new Spry.Widget.CollapsiblePanel("CollapsiblePanel2",  {contentIsOpen:false});
 var CollapsiblePanel3  = new Spry.Widget.CollapsiblePanel("CollapsiblePanel3",  {contentIsOpen:false});
