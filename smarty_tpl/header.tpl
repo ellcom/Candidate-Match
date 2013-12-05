@@ -6,6 +6,8 @@
 
   <title>Candidate Match{if $title} - {$title}{/if}</title>
   
+  <script src="scripts/Chart.js"></script>
+  
   <!-- Meta Ownership -->
   <meta name="description" content="Candidate Match System">
   <meta name="author" content="Andrew Benfield, Ben Thurlow, Elliot Adderton, Garlen Saldanha">
@@ -28,7 +30,10 @@
 <header>
 <h1>Candidate Match</h1>
 <nav>
-<a href="/">Home</a> <a href="/voters.php">Voters</a> <a href="/login.php">Candidate Login</a>
+<a href="/CM/">Home</a>
+<a href="/CM/voters.php">Voters</a>
+<a href="/CM/results.php">Voter's Results</a>
+<a href="/CM/login.php">Candidate Login</a>
 </nav>
 
 </header>
