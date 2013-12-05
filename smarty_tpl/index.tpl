@@ -1,7 +1,7 @@
 {include file="header.tpl" title="Homepage"}
 
-
+<section id="mainmatter">
 <h1>Helloo {$myvar|default:"Paul"}</h1>
-
+</section>
 
 {include file="footer.tpl"}
