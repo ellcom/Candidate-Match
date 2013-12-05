@@ -1,8 +1,11 @@
 <?php 
 
-class Graph1 extends PDO {
+class Graph1 {
 
 	function __construct() {
+	}
+	
+	function display() {
     	?>
 		
 		<canvas id="graph1" height="400" width="400"></canvas>
