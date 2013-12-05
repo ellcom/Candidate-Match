@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2013 at 02:20 PM
--- Server version: 5.6.11
--- PHP Version: 5.5.3
+-- Generation Time: Dec 05, 2013 at 02:06 PM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -37,23 +37,23 @@ CREATE TABLE IF NOT EXISTS `candidateanswers` (
   PRIMARY KEY (`id`),
   KEY `questionID` (`questionID`),
   KEY `candidateID` (`candidateID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `candidateanswers`
 --
 
 INSERT INTO `candidateanswers` (`id`, `questionID`, `candidateID`, `answer`, `justification`) VALUES
-(21, 1, 1, 1, NULL),
-(22, 2, 1, 1, NULL),
-(23, 3, 1, 1, NULL),
-(24, 4, 1, 1, NULL),
-(25, 5, 1, 1, NULL),
-(26, 6, 1, 1, NULL),
-(27, 7, 1, 1, NULL),
-(28, 8, 1, 1, NULL),
-(29, 9, 1, 1, NULL),
-(30, 10, 1, 1, NULL),
+(21, 1, 1, 2, NULL),
+(22, 2, 1, 3, NULL),
+(23, 3, 1, 3, NULL),
+(24, 4, 1, 3, NULL),
+(25, 5, 1, 3, NULL),
+(26, 6, 1, 3, NULL),
+(27, 7, 1, 3, NULL),
+(28, 8, 1, 3, NULL),
+(29, 9, 1, 3, NULL),
+(30, 10, 1, 3, NULL),
 (31, 1, 2, 1, NULL),
 (32, 2, 2, 2, NULL),
 (33, 3, 2, 3, NULL),
@@ -63,7 +63,11 @@ INSERT INTO `candidateanswers` (`id`, `questionID`, `candidateID`, `answer`, `ju
 (37, 7, 2, 4, NULL),
 (38, 8, 2, 3, NULL),
 (39, 9, 2, 2, NULL),
-(40, 10, 2, 1, NULL);
+(40, 10, 2, 1, NULL),
+(41, 11, 1, 3, NULL),
+(42, 12, 1, 3, NULL),
+(43, 11, 2, 2, NULL),
+(44, 12, 2, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -75,6 +79,10 @@ CREATE TABLE IF NOT EXISTS `candidates` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userID` int(11) unsigned DEFAULT NULL,
   `electionID` int(11) unsigned DEFAULT NULL,
+  `age` int(3) NOT NULL,
+  `gender` varchar(1) NOT NULL,
+  `picture` varchar(200) DEFAULT NULL,
+  `manifestoLink` varchar(200) DEFAULT NULL,
   `recomendationCount` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`),
@@ -85,9 +93,9 @@ CREATE TABLE IF NOT EXISTS `candidates` (
 -- Dumping data for table `candidates`
 --
 
-INSERT INTO `candidates` (`id`, `userID`, `electionID`, `recomendationCount`) VALUES
-(1, 2, 1, NULL),
-(2, 3, 1, NULL);
+INSERT INTO `candidates` (`id`, `userID`, `electionID`, `age`, `gender`, `picture`, `manifestoLink`, `recomendationCount`) VALUES
+(1, 2, 1, 21, 'M', 'me.png', 'mymanifesto.html', NULL),
+(2, 3, 1, 24, 'M', 'test.png', 'testmanifesto.org', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,26 +156,28 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `questionText` varchar(200) NOT NULL DEFAULT '',
   `category` int(11) DEFAULT NULL,
-  `divisiveness` int(11) DEFAULT NULL,
+  `divisiveness` float DEFAULT NULL,
   `selected` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `questions`
 --
 
 INSERT INTO `questions` (`id`, `questionText`, `category`, `divisiveness`, `selected`) VALUES
-(1, 'Should we kill 3 billion people to save Earth?', NULL, NULL, 0),
-(2, 'Should Ben cut his hair?', NULL, NULL, 0),
-(3, 'Is Garlen the coolest guy you know?', NULL, NULL, 0),
-(4, 'Does Elliot often say the gayest thing of the day?', NULL, NULL, 0),
-(5, 'Are pears a tasty fruit?', NULL, NULL, 0),
-(6, 'Stack Overflow is the most useful website', NULL, NULL, 0),
-(7, 'Bing is a superior search engine to Google', NULL, NULL, 0),
-(8, 'Elliot is more strawberry blonde than ginger ', NULL, NULL, 0),
-(9, 'Garlen is too tall for his own good', NULL, NULL, 0),
-(10, 'Tesco is Garlens favourite shop in the world', NULL, NULL, 0);
+(1, 'Should we kill 3 billion people to save Earth?', NULL, 1.83712, 0),
+(2, 'Should Ben cut his hair?', NULL, 0.612372, 0),
+(3, 'Is Garlen the coolest guy you know?', NULL, 4, 0),
+(4, 'Does Elliot often say the gayest thing of the day?', NULL, 0.612372, 0),
+(5, 'Are pears a tasty fruit?', NULL, 1.22474, 0),
+(6, 'Stack Overflow is the most useful website', NULL, 1.22474, 0),
+(7, 'Bing is a superior search engine to Google', NULL, 0.612372, 0),
+(8, 'Elliot is more strawberry blonde than ginger ', NULL, 4, 0),
+(9, 'Garlen is too tall for his own good', NULL, 0.612372, 0),
+(10, 'Tesco is Garlens favourite shop in the world', NULL, 1.22474, 0),
+(11, 'There should be more questions in this DB', NULL, 0.612372, 0),
+(12, 'To what extent do you agree with this statement', NULL, 1.22474, 0);
 
 -- --------------------------------------------------------
 

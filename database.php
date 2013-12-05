@@ -200,7 +200,7 @@ class Database extends PDO {
 		{			
 			// called from stats.php
 			$statObj = new stats($question['tally']);
-			$divisiveness = $statObj->getDivisiveness()/4;
+			$divisiveness = $statObj->getDivisiveness();
 			$questionID = $question['questionID'];
 
 			echo $divisiveness.' '.$questionID.'<br>';
@@ -238,6 +238,56 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing data about
 	// a specific candidateID
+	function returnDataForCandidates()
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id");
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
+		}	
+
+		$candidateData = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		return $candidateData;
+	}
+	// ==================================================
+	// END FUNCTION returnDataForCandidate
+
+
+	// FUNCTION returnDataForCandidate
+	// ==================================================
+	// returns a associative array containing data about
+	// a specific candidateID
+	function returnDataForCandidate($candidateID)
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id  WHERE candidates.id = :candidateID");
+			$statement->bindParam(':candidateID', $candidateID);
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnDataForCandidate): '.$e->getMessage();
+		}	
+
+		$candidateData = $statement->fetch(PDO::FETCH_ASSOC);
+
+		return $candidateData;
+	}
+	// ==================================================
+	// END FUNCTION returnDataForCandidate
+
+
+	// FUNCTION returnDataForCandidate
+	// ==================================================
+	// returns a associative array containing data about
+	// a specific candidateID
+	/*
 	function returnDataForCandidate($candidateID)
 	{
 		try // query the database
@@ -284,6 +334,7 @@ class Database extends PDO {
 		// return data as an associative array
 		return $candidateData;
 	}
+	*/
 	// ==================================================
 	// END FUNCTION returnDataForCandidate
 
