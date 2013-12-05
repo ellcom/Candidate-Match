@@ -187,9 +187,7 @@ class Database extends PDO {
 
 	// FUNCTION updateDivisiveness
 	// ==================================================
-	// attempts to add a candidate answer to the database
-	// will change the existing answer if one already
-	// exists
+	// updates the divisiveness of all questions in db
 	function updateDivisiveness()
 	{
 		$tally = $this->tallyCandidateAnswers();
@@ -203,8 +201,6 @@ class Database extends PDO {
 			$divisiveness = $statObj->getDivisiveness();
 			$questionID = $question['questionID'];
 
-			echo $divisiveness.' '.$questionID.'<br>';
-
 			$update_query = $this->prepare("UPDATE questions SET divisiveness = :divisiveness WHERE id = :questionID");
 			$update_query->bindParam(':divisiveness', $divisiveness);
 			$update_query->bindParam(':questionID', $questionID);
@@ -215,6 +211,12 @@ class Database extends PDO {
 	// ==================================================
 	// END FUNCTION updateDivisiveness
 
+
+	// FUNCTION returnDivisiveness
+	// ==================================================
+	// attempts to add a candidate answer to the database
+	// will change the existing answer if one already
+	// exists
 	function returnDivisiveness()
 	{
 		try
@@ -229,6 +231,11 @@ class Database extends PDO {
 
 		return $check_query->fetchAll(PDO::FETCH_ASSOC);
 	}
+	// ==================================================
+	// END FUNCTION returnDivisiveness
+
+
+
 
 	// =======================================================================================
 	// ============================== RETURNING DATA METHODS =================================
@@ -242,7 +249,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id");
+			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id");
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error
@@ -266,7 +273,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id  WHERE candidates.id = :candidateID");
+			$statement = $this->prepare("SELECT candidates.age, candidates.gender, candidates.course, candidates.picture, candidates.manifestoLink, users.name FROM candidates INNER JOIN users ON candidates.userID=users.id  WHERE candidates.id = :candidateID");
 			$statement->bindParam(':candidateID', $candidateID);
 			$statement->execute();
 		}
@@ -279,62 +286,6 @@ class Database extends PDO {
 
 		return $candidateData;
 	}
-	// ==================================================
-	// END FUNCTION returnDataForCandidate
-
-
-	// FUNCTION returnDataForCandidate
-	// ==================================================
-	// returns a associative array containing data about
-	// a specific candidateID
-	/*
-	function returnDataForCandidate($candidateID)
-	{
-		try // query the database
-		{
-			$statement = $this->prepare("SELECT age, gender, picture, manifestoLink FROM candidates WHERE id = :candidateID");
-			$statement->bindParam(':candidateID', $candidateID);
-			$statement->execute();
-		}
-		catch (PDOexception $e) // or return an error
-		{
-			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
-		}	
-
-		$candidateData = $statement->fetch(PDO::FETCH_ASSOC);	
-
-		try // query the database
-		{
-			$userID_statement = $this->prepare("SELECT userID FROM candidates WHERE id = :candidateID");
-			$userID_statement->bindParam(':candidateID', $candidateID);
-			$userID_statement->execute();
-		}
-		catch (PDOexception $e) // or return an error
-		{
-			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
-		}	
-
-		$userID_Obj = $userID_statement->fetch();
-
-		try // query the database
-		{
-			$statement = $this->prepare("SELECT name FROM users WHERE id = :userID");
-			$statement->bindParam(':userID', $userID_Obj->userID);
-			$statement->execute();
-		}
-		catch (PDOexception $e) // or return an error
-		{
-			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
-		}	
-
-		$name_Obj = $statement->fetch();
-
-		$candidateData['name'] = $name_Obj->name;
-
-		// return data as an associative array
-		return $candidateData;
-	}
-	*/
 	// ==================================================
 	// END FUNCTION returnDataForCandidate
 
@@ -370,7 +321,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT electionquestions.questionID, questions.questionText FROM questions INNER JOIN electionquestions ON questions.id=electionquestions.questionID");
+			$statement = $this->prepare("SELECT electionquestions.questionID, questions.questionText FROM questions INNER JOIN electionquestions ON questions.id=electionquestions.questionID ORDER BY electionquestions.questionID ASC");
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error
@@ -394,7 +345,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT questionID, answer FROM candidateanswers WHERE candidateID = 1 ORDER BY id");
+			$statement = $this->prepare("SELECT questionID, answer FROM candidateanswers WHERE candidateID = :candidateID ORDER BY id");
 			$statement->bindParam('candidateID', $candidateID);
 			$statement->execute();
 		}
@@ -409,44 +360,28 @@ class Database extends PDO {
 	// END FUNCTION returnAnswerDataForCandidate
 
 
-	// FUNCTION returnAnswerDataComparison
+		// FUNCTION returnAnswerDataForCandidate
 	// ==================================================
 	// Given an array of candidateID's
 	// returns a 2D array containing the candidateID and
 	// the candidates answer set for the questions.
-	function returnAnswerDataComparison($candidateIDs)
+	function returnElectionAnswerDataForCandidate($candidateID)
 	{
-		$comparisonArray;
-
-		// obtain data from the database
-		foreach ($this->returnCandidateAnswerData() as $row) 
+		try // query the database
 		{
-			// store each row in new array
-			$candidateAnswerData[] = $row;
+			$statement = $this->prepare("SELECT candidateanswers.questionID, candidateanswers.answer FROM candidateanswers INNER JOIN electionquestions ON candidateanswers.questionID=electionquestions.questionID WHERE candidateanswers.candidateID = :candidateID ORDER BY id");
+			$statement->bindParam('candidateID', $candidateID);
+			$statement->execute();
 		}
-
-		// set up the structure for id's
-		foreach ($candidateIDs as $id) 
+		catch (PDOexception $e) // or return an error
 		{
-			$comparisonArray[] = array('candidateID'=>$id, 'answers'=>array());
-		}
+			echo 'ERROR (func: returnCandidateAnswerData): '.$e->getMessage();
+		}		
 
-		// add in the answers in ascending question order
-		foreach ($candidateAnswerData as $row)
-		{
-			for ($i=0; $i < sizeof($comparisonArray); $i++) 
-			{ 
-				if ($comparisonArray[$i]['candidateID'] == $row['candidateID']) 
-				{
-					$comparisonArray[$i]['answers'][] = $row['answer']; 
-				}
-			}
-		}
-
-		return $comparisonArray;
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	// ==================================================
-	// END FUNCTION returnAnswerDataComparison
+	// END FUNCTION returnAnswerDataForCandidate
 
 
 	// FUNCTION returnCandidateAnswerData
@@ -472,6 +407,29 @@ class Database extends PDO {
 	// END FUNCTION returnCandidateAnswerData
 
 
+	// FUNCTION returnCandidateElectionAnswerData
+	// ==================================================
+	// returns a associative array containing all candid-
+	// ate answers from the database.
+	function returnCandidateElectionAnswerData() 
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT candidateanswers.questionID, candidateanswers.candidateID, candidateanswers.answer FROM candidateanswers INNER JOIN electionquestions ON candidateanswers.questionID=electionquestions.questionID ORDER BY candidateID ASC, questionID ASC");
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateAnswerData): '.$e->getMessage();
+		}		
+
+		// return data as an associative array
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// ==================================================
+	// END FUNCTION returnCandidateElectionAnswerData
+
+
 	// FUNCTION returnCandidateAnswerDataForQuestion
 	// ==================================================
 	// returns a associative array containing all candid-
@@ -495,6 +453,13 @@ class Database extends PDO {
 	// ==================================================
 	// END FUNCTION returnCandidateAnswerDataForQuestion
 
+
+
+
+
+	// =======================================================================================
+	// ================================ MORE ADVANCED METHODS ================================
+	// =======================================================================================
 
 	// FUNCTION tallyCandidateAnswers
 	// ==================================================
@@ -560,6 +525,46 @@ class Database extends PDO {
 	}
 	// ==================================================
 	// END FUNCTION tallyCandidateAnswers
+
+
+	// FUNCTION returnAnswerDataComparison
+	// ==================================================
+	// Given an array of candidateID's
+	// returns a 2D array containing the candidateID and
+	// the candidates answer set for the questions.
+	function returnAnswerDataComparison($candidateIDs)
+	{
+		$comparisonArray;
+
+		// obtain data from the database
+		foreach ($this->returnCandidateAnswerData() as $row) 
+		{
+			// store each row in new array
+			$candidateAnswerData[] = $row;
+		}
+
+		// set up the structure for id's
+		foreach ($candidateIDs as $id) 
+		{
+			$comparisonArray[] = array('candidateID'=>$id, 'answers'=>array());
+		}
+
+		// add in the answers in ascending question order
+		foreach ($candidateAnswerData as $row)
+		{
+			for ($i=0; $i < sizeof($comparisonArray); $i++) 
+			{ 
+				if ($comparisonArray[$i]['candidateID'] == $row['candidateID']) 
+				{
+					$comparisonArray[$i]['answers'][] = $row['answer']; 
+				}
+			}
+		}
+
+		return $comparisonArray;
+	}
+	// ==================================================
+	// END FUNCTION returnAnswerDataComparison
 
 
 	// FUNCTION compareUserAnswerToCandidates

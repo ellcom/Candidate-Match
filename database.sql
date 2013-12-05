@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2013 at 02:06 PM
+-- Generation Time: Dec 05, 2013 at 05:43 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -44,11 +44,11 @@ CREATE TABLE IF NOT EXISTS `candidateanswers` (
 --
 
 INSERT INTO `candidateanswers` (`id`, `questionID`, `candidateID`, `answer`, `justification`) VALUES
-(21, 1, 1, 2, NULL),
-(22, 2, 1, 3, NULL),
-(23, 3, 1, 3, NULL),
-(24, 4, 1, 3, NULL),
-(25, 5, 1, 3, NULL),
+(21, 1, 1, 1, NULL),
+(22, 2, 1, 5, NULL),
+(23, 3, 1, 4, NULL),
+(24, 4, 1, 2, NULL),
+(25, 5, 1, 5, NULL),
 (26, 6, 1, 3, NULL),
 (27, 7, 1, 3, NULL),
 (28, 8, 1, 3, NULL),
@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `candidates` (
   `electionID` int(11) unsigned DEFAULT NULL,
   `age` int(3) NOT NULL,
   `gender` varchar(1) NOT NULL,
+  `course` varchar(50) NOT NULL,
   `picture` varchar(200) DEFAULT NULL,
   `manifestoLink` varchar(200) DEFAULT NULL,
   `recomendationCount` int(11) DEFAULT NULL,
@@ -93,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `candidates` (
 -- Dumping data for table `candidates`
 --
 
-INSERT INTO `candidates` (`id`, `userID`, `electionID`, `age`, `gender`, `picture`, `manifestoLink`, `recomendationCount`) VALUES
-(1, 2, 1, 21, 'M', 'me.png', 'mymanifesto.html', NULL),
-(2, 3, 1, 24, 'M', 'test.png', 'testmanifesto.org', NULL);
+INSERT INTO `candidates` (`id`, `userID`, `electionID`, `age`, `gender`, `course`, `picture`, `manifestoLink`, `recomendationCount`) VALUES
+(1, 2, 1, 21, 'M', 'Computer Science', 'me.png', 'mymanifesto.html', NULL),
+(2, 3, 1, 24, 'M', 'Women''s studies', 'test.png', 'testmanifesto.org', NULL);
 
 -- --------------------------------------------------------
 
@@ -166,11 +167,11 @@ CREATE TABLE IF NOT EXISTS `questions` (
 --
 
 INSERT INTO `questions` (`id`, `questionText`, `category`, `divisiveness`, `selected`) VALUES
-(1, 'Should we kill 3 billion people to save Earth?', NULL, 1.83712, 0),
+(1, 'Should we kill 3 billion people to save Earth?', NULL, 4, 0),
 (2, 'Should Ben cut his hair?', NULL, 0.612372, 0),
-(3, 'Is Garlen the coolest guy you know?', NULL, 4, 0),
-(4, 'Does Elliot often say the gayest thing of the day?', NULL, 0.612372, 0),
-(5, 'Are pears a tasty fruit?', NULL, 1.22474, 0),
+(3, 'Is Garlen the coolest guy you know?', NULL, 0.612372, 0),
+(4, 'Does Elliot often say the gayest thing of the day?', NULL, 0, 0),
+(5, 'Are pears a tasty fruit?', NULL, 4, 0),
 (6, 'Stack Overflow is the most useful website', NULL, 1.22474, 0),
 (7, 'Bing is a superior search engine to Google', NULL, 0.612372, 0),
 (8, 'Elliot is more strawberry blonde than ginger ', NULL, 4, 0),
