@@ -1,6 +1,6 @@
 {include file="header.tpl" title="Homepage"}
 
-<section id="mainmatter">
+<section id="main-matter">
 <h1>Helloo {$myvar|default:"Paul"}</h1>
 </section>
 
