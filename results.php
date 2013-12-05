@@ -121,7 +121,7 @@ echo '				</div>
 			var jGraph1 = new Chart(ctx).Radar(data);
 
 		</script>
-		br>The graph does work, it just looks stupid if there's only 2 candidates
+		<br>The graph does work, it just looks stupid if there's only 2 candidates
 	</div>
 </div>
 
