@@ -9,7 +9,7 @@ if($session->checkSession()){
   if(isset($_POST['password1']) && isset($_POST['password2'])){
   	if($_POST['password1'] != $_POST['password2']){
   		$smarty->assign("message","New Passwords Don't Match");
-  	} elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,40}$/',$_POST['password1'])) {
+  	} elseif (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z!@#$%]{8,40}$/',$_POST['password1'])) {
   		$smarty->assign("message","New Passwords must be 8 charactors (40 max) in length, contain 1 digit, 1 upercase and 1 lowercase letter");
   	}else{
   		if($database->changeUserPassword($_SESSION['username'],$_POST['password0'],$_POST['password1'])){
