@@ -1,9 +1,15 @@
 {include file="header.tpl" title="Admin"}
 
 <section id="main-matter">
-<h1>Helloo {$session.name|default:"John Doe"} - <a href='dashboard.php'>Dashboard Page</a></h1>
+<h1>Hello {$session.name|default:"John Doe"}</h1>
 
-{if $session.type eq 'admin'}{include file="admin.tpl"}{/if}
+<h2>Profile</h2>
+<ul>
+	<li><a href="/password.php">Change My Password</a></li>
+</ul>	
+	
+
+{if $session.type eq 'admin'}{include file="admin.tpl"}{elseif $session.type eq 'candidate'}{include file="candidate.tpl"}{/if}
 </section>
 
 {include file="footer.tpl"}

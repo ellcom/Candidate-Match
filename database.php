@@ -47,7 +47,8 @@ class Database extends PDO {
 		$statement->bindParam(':username', $username);
 		$statement->bindParam(':password', $password);
 		
-		return $statement->execute();
+		$statement->execute();
+		return ($statement->rowCount() == 1);
 	}
 	
 	private function encryptPassword($password){
