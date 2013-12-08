@@ -2,6 +2,7 @@
 
 <ul>
 	<li><a href="">Create New User</a></li>
-	<li><a href="">Change Users Password</a></li>
-	<li><a href="">Delete User</a></li>
+	<li><a href="">List Users</a></li>
+	<li><a href="">Create Election</a></li>
+	<li><a href="">List Elections</a></li>
 </ul>

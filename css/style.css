@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 36px;
 }
 
-a, p, label, span {
+a, p, label, span, li {
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -64,6 +64,40 @@ section#main-matter {
 	width: 780px;
 }
 
+section#main-matter h1 {
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+section#main-matter h2 {
+	border-bottom: 1px solid #333;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+section#main-matter ul {
+	margin-bottom:20px;
+	overflow:hidden;
+	padding: 10px;
+}
+
+section#main-matter li {
+	display:inline;
+	float:left;
+	line-height:1.5em;
+	width:50%;
+}
+
+section#main-matter li a {
+	color: #08f;
+}
+
+section#main-matter li a:hover {
+	background: #08f;
+	color: white;
+	text-decoration: none;
+}
 
 form#login {
 	display: block;

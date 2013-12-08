@@ -7,7 +7,7 @@
 	<div class="clear"></div>
 	{/if}
 	<label for="username">Username: </label>
-	<input name="username" type="text" placeholder="Username"/>
+	<input name="username" type="text" placeholder="Username" value="{$username|default:''}"/>
 	<div class="clear"></div>
 	<label for="password">Password: </label>
 	<input name="password" type="password" placeholder="Password"/>
