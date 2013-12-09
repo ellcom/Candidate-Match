@@ -59,7 +59,7 @@ header nav a:hover {
 
 section#main-matter {
 	background: white;
-	margin: 0 auto;
+	margin: 0 auto 20px;
 	padding: 10px;
 	width: 780px;
 }
@@ -150,6 +150,9 @@ section#main-matter table tbody tr {
 	line-height: 18px;	
 }
 
+section#main-matter button {
+}
+
 form#login {
 	display: block;
 	margin: 0 auto;
@@ -172,7 +175,7 @@ form#login span {
 	
 }
 
-form#login input[type='text'], form#login input[type='password'] {
+form#login input[type='text'], form#login input[type='password'], form#login select {
 	float: right;
 }
 
@@ -188,6 +191,24 @@ form#login button {
 	margin: 10px 0;
 }
 
+form#login select {
+	background: white;
+	border: 1px solid #999 !important;
+	float: right;
+	font-size: 16px;
+	line-height: 20px;
+	outline: none;
+	padding: 6px;
+	width: 224px;
+	
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+
 input[type='text'], input[type='password'] {
 	border: 1px solid #999;
 	-webkit-border-radius: 3px;
@@ -197,6 +218,14 @@ input[type='text'], input[type='password'] {
 	line-height: 20px;
 	outline: none;
 	padding: 6px;
+	width: 210px;
+}
+label.locked:after	 {
+	content:'\1F512';
+	
+}
+input[type='text']:disabled {
+	background-color: #eee;
 }
 
 label {
@@ -218,6 +247,7 @@ button {
 	border-radius: 2px;
 	text-shadow: 0 1px 1px #a0d4ec;
 }
+
 
 button:active {
 	background: linear-gradient(to bottom, #0f7bb5 0%, #a0d4ec 100%) white;

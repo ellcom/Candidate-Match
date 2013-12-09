@@ -86,6 +86,11 @@ class Database extends PDO {
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
 	
+	function getUserTypes() {
+		$query = $this->query("SELECT name FROM usertypes");
+		return $query->fetchAll(PDO::FETCH_COLUMN);
+	}
+	
 	function deleteUsers($ids) {
 		$statement = $this->prepare("DELETE FROM `users` WHERE id = :id");
 		
