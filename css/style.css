@@ -109,6 +109,21 @@ section#main-matter table thead {
 	border-bottom: 1px solid #777;
 }
 
+section#main-matter table thead tr th:not(:first-child):after {
+	display: inline-block;
+	content: "\00a0";
+	font-size: 12px;
+	width: 11px;
+}
+
+section#main-matter table thead tr th.down:after {
+	content: "\25bc";
+}
+
+section#main-matter table thead tr th.up:after {
+	content: "\25b2";
+}
+
 section#main-matter table thead tr th {
 	font-weight: 700;
 	padding-bottom: 5px;
@@ -129,6 +144,10 @@ section#main-matter table tbody tr:hover {
 }
 section#main-matter table tbody tr td {
 	padding: 10px 0;
+}
+
+section#main-matter table tbody tr {
+	line-height: 18px;	
 }
 
 form#login {

@@ -7,15 +7,14 @@
 	<thead>
 		<tr>
 			<th><input type="checkbox" name="all" id="tickbox_all">
-			<th>id
-			<th>Username
-			<th>Name
-			<th>Email
-			<th>Type
-			<th>Active
+			<th id="th_id">id
+			<th id="th_username">Username
+			<th id="th_name">Name
+			<th id="th_email">Email
+			<th id="th_type">Type
+			<th id="th_active">Active
 	<tbody>
-		{foreach $users as $row}
-		<tr>
+		{foreach $users as $row}<tr id="user_row_{$row.id}">
 			<td><input type="checkbox" name="user_{$row.id}" id="tickbox_user_{$row.id}">
 			<td>{$row.id}
 			<td>{$row.username}
@@ -23,6 +22,7 @@
 			<td>{$row.email}
 			<td>{$row.type|capitalize}
 			<td>{if $row.active}Yes{else}No{/if}
+			
 		{/foreach}
 </table>
 
