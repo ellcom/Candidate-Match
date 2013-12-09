@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 36px;
 }
 
-a, p, label, span, li {
+a, p, label, span, li, th, td {
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -99,6 +99,38 @@ section#main-matter li a:hover {
 	text-decoration: none;
 }
 
+section#main-matter table {
+	font-size: 14px;
+	margin: 20px 0;
+	width: 100%;
+}
+
+section#main-matter table thead {
+	border-bottom: 1px solid #777;
+}
+
+section#main-matter table thead tr th {
+	font-weight: 700;
+	padding-bottom: 5px;
+	text-align: left;
+	text-transform: uppercase;
+}
+section#main-matter table tbody tr {
+	border-bottom: 1px solid #ccc;
+}
+
+section#main-matter table tbody tr:nth-child(odd) {
+	background-color: #def;
+}
+
+section#main-matter table tbody tr:hover {
+	background-color: #ffb;
+	cursor: pointer;
+}
+section#main-matter table tbody tr td {
+	padding: 10px 0;
+}
+
 form#login {
 	display: block;
 	margin: 0 auto;
@@ -157,6 +189,7 @@ button {
 	background: linear-gradient(to bottom, #a0d4ec 0%, #0f7bb5 100%) white;
 	border: 1px solid #0f7bb5;
 	color: #12628e;
+	cursor: pointer;
 	font-size: 14px;
 	font-weight: 800;
 	padding: 5px 10px;

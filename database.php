@@ -11,6 +11,11 @@ class Database extends PDO {
 		}
 	}
 	
+	//
+	// AUTHENTICATION & USER SECTION
+	//
+	
+	
 	function authenticationCredentials($username, $password) {
 		$statement = $this->prepare("SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1");
 		$statement->bindValue(':username',$username);
@@ -55,6 +60,24 @@ class Database extends PDO {
 		return hash("sha256","^7~Q?zÉ".$password);
 	}
 	
+	function listUsers() {
+		$query = $this->query("SELECT id, username, email, name, picture, type, active FROM users");
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function setActive($ids,$active){
+		$statement = $this->prepare("UPDATE `users` SET active = :active WHERE id = :id");
+		$statement->bindParam(':active', $active);
+		
+		foreach ($ids as $id) {
+			$statement->bindParam(':id',$id);
+			$statement->execute();
+		}
+	}
+	
+	//
+	// SESSION SECTION
+	//
 	
 	function insertSession($userID, $sessionID) {
 		$statement = $this->prepare("INSERT INTO `sessions` (`id`,`userID`,`sessionID`,`timestamp`,`lastSeen`) VALUES (NULL,:userID,:sessionID,UNIX_TIMESTAMP(),'login.php')");
