@@ -75,6 +75,17 @@ class Database extends PDO {
 		}
 	}
 	
+	function getUser($id) {
+		$statement = $this->prepare("SELECT id, username, email, name, picture, type, active FROM users WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->execute();
+		
+		if($statement->rowCount() == 0){
+			return NULL;
+		}
+		return $statement->fetch(PDO::FETCH_ASSOC);
+	}
+	
 	function deleteUsers($ids) {
 		$statement = $this->prepare("DELETE FROM `users` WHERE id = :id");
 		
