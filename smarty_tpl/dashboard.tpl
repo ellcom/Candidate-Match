@@ -5,7 +5,7 @@
 
 <h2>Profile</h2>
 <ul>
-	<li><a href="/password.php">Change My Password</a></li>
+	<li><a href="./password.php">Change My Password</a></li>
 </ul>	
 	
 

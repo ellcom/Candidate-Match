@@ -29,11 +29,11 @@
 <header>
 <h1>Candidate Match</h1>
 <nav>
-<a href="/">Home</a>
-<a href="/voters.php">Voters</a>
-<a href="/results.php">Voter's Results</a>
-{if isset($session)}<a href="/dashboard.php" class="current">Dashboard</a>
-<a href="/logout.php">Logout</a>{else}<a href="/login.php">Candidate Login</a>{/if}
+<a href="./">Home</a>
+<a href="./voters.php">Voters</a>
+<a href="./results.php">Voter's Results</a>
+{if isset($session)}<a href="./dashboard.php" class="current">Dashboard</a>
+<a href="./logout.php">Logout</a>{else}<a href="./login.php">Candidate Login</a>{/if}
 </nav>
 
 </header>
