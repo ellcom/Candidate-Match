@@ -75,6 +75,15 @@ class Database extends PDO {
 		}
 	}
 	
+	function deleteUsers($ids) {
+		$statement = $this->prepare("DELETE FROM `users` WHERE id = :id");
+		
+		foreach ($ids as $id) {
+			$statement->bindParam(':id',$id);
+			$statement->execute();
+		}
+	}
+	
 	//
 	// SESSION SECTION
 	//

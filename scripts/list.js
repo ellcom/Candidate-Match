@@ -2,9 +2,9 @@ $(document).ready(function() {
 	
 	$('#tickbox_all').change(function() {
 		if($(this).is(':checked')){
-			$('input[type="checkbox"]').prop('checked', true);
+			$('input[type="checkbox"]').prop('checked', true)
 		}else {
-			$('input[type="checkbox"]').prop('checked', false);
+			$('input[type="checkbox"]').prop('checked', false)
 		}
 	})
 	
@@ -31,7 +31,7 @@ $(document).ready(function() {
 			success: function(data){
 				if(data == "1"){
 					$.each(toSay, function() {
-						$(this).html((active == 1 ? "Yes":"No"));
+						$(this).html((active == 1 ? "Yes":"No"))
 					})
 					
 				}else {
@@ -43,5 +43,40 @@ $(document).ready(function() {
 			}
 		})
 	})
-
+	
+	$('#delete_users').click(function() {
+	
+		var checked = $('tbody').find('input:checked')
+	
+		if(!checked.length) return
+	
+		var toDelete = [], toRemove = []
+	
+		checked.each(function() {
+			toDelete.push(this.name.slice(5))
+			toRemove.push($(this).parent().parent())
+		})
+	
+		$.ajax({
+			url: '/ajax_changeUsers.php',
+			type: 'POST',
+			data: {'ids': toDelete, 'delete' : 1},
+			dataType: 'text',
+			timeout: 2000,
+			success: function(data){
+				if(data == "1"){
+					$.each(toRemove, function() {
+						$(this).slideUp()
+					})
+				
+				}else {
+					location.reload()
+				}
+			},
+			error: function(request, status, error) {
+				alert(request.responseText)
+			}
+		})
+	})	
+	
 })
