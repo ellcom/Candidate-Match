@@ -221,6 +221,11 @@ class Database extends PDO {
 		
 		return $statement->execute();
 	}
+	
+	function listElections() {
+		$query = $this->query("SELECT * FROM elections");
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
 
 
 	// =======================================================================================
