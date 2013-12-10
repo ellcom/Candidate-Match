@@ -8,6 +8,7 @@ if($session->checkSession() && $session->isAdmin()){
 
 	$list = $database->listElections();
 	
+	$smarty->assign('session',$_SESSION);
 	$smarty->assign('list',$list);
 	$smarty->display('listelections.tpl');
 	
