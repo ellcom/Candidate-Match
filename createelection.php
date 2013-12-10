@@ -20,7 +20,7 @@ if($session->checkSession() && $session->isAdmin()){
 			}
 		}
 	}
-	
+	$smarty->assign('session',$_SESSION);
 	if(isset($message)) $smarty->assign('message',$message);
 	$smarty->display('createelection.tpl');
 	
