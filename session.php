@@ -26,7 +26,7 @@ class Session {
 		return $database->deleteSession($sessionID);
 	}
 	
-	function checkSession(){
+	function checkSession() {
 		global $database;
 		$sessionID = session_id();
 		$userID = $database->lookupSession($sessionID);
@@ -36,6 +36,18 @@ class Session {
 			return true;
 		}else {
 			return false;
+		}
+	}
+	
+	function isAdmin(){
+		global $database;
+		$sessionID = session_id();
+		$userID = $database->lookupSession($sessionID);
+		$user = $database->getUser($userID);
+		if ($user['type'] != "admin") {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
