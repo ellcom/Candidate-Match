@@ -13,10 +13,10 @@
 				<input type="radio" name="A{$row.questionID}" value="3" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '3';">No Opinion
 				<input type="radio" name="A{$row.questionID}" value="4" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '4';">Agree
 				<input type="radio" name="A{$row.questionID}" value="5" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '5';">Strongly Agree<br>
-				<span style=color:red ID="radio_info{$row.id}"></span>
+				<span style=color:red ID="radio_info{$row.questionID}"></span>
 			<br><br>
 		{/foreach}
-		<input type="submit" value="Submit">';
+		<input type="submit" value="Submit">
 	</form>
 </section>
 
