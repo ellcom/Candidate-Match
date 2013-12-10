@@ -40,7 +40,7 @@
 	<input name="password" type="password"/>
 	<div class="clear"></div>
 	
-	<button type="submit" name="submit">Save Changes</button>
+	<button type="submit" name="submit">Create</button>
 	<div class="clear"></div>
 </form>
 <div class="clear"></div>

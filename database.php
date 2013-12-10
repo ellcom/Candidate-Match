@@ -30,13 +30,23 @@ class Database extends PDO {
 		return  $statement->fetch(PDO::FETCH_ASSOC);	
 	}
 	
-	function addUserToDatabase($username, $password, $type, $active=true) {
-	
-		$statement = $this->prepare("INSERT INTO `users` (`id`, `username`, `password`, `type`, `active`) VALUES (NULL,:username,:password,:type,:active)");
+	function addUserToDatabase($username, $password, $email, $name, $type, $active=true) {
+		
+		$statement = $this->prepare("SELECT * FROM `users` WHERE username = :username LIMIT 1");
+		$statement->bindParam(':username',$username);
+		$statement->execute();
+		if($statement->rowCount() ==1){
+			return false;
+			// User already Exists
+		}
+			
+		$statement = $this->prepare("INSERT INTO `users` (`id`, `username`, `password`, `email`, `name`, `type`, `active`) VALUES (NULL,:username,:password,:email,:name,:type,:active)");
 		$statement->bindParam(':username',$username);
 		$password = $this->encryptPassword($password);
 		$statement->bindParam(':password',$password);
 		$statement->bindParam(':type',$type);
+		$statement->bindParam(':email',$email);
+		$statement->bindParam(':name',$name);
 		$statement->bindParam(':active',$active);
 		
 		return $statement->execute();
