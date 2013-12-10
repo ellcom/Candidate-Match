@@ -7,10 +7,10 @@ $smarty->assign('questions', $questions);
 
 if(isset($_POST['submit']))
 {
+	$voterAnswers = array();
 	foreach($questions as $row)
 	{
-		$i = $row['questionID'];
-		$voterAnswers[$i] = $_POST['A'.$row['questionID']];
+		array_push($voterAnswers, array('questionID'=>$row['questionID'], 'answer'=>$_POST['A'.$row['questionID']]));
 	}
 	print_r($voterAnswers);
 	$smarty->display('results.tpl');
