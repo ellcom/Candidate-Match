@@ -144,6 +144,10 @@ class Database extends PDO {
 	//
 	
 	function insertSession($userID, $sessionID) {
+		$statement = $this->prepare("DELETE FROM `sessions` WHERE userID = :userID");
+		$statement->bindParam(':userID',$userID);
+		$statement->execute();
+		
 		$statement = $this->prepare("INSERT INTO `sessions` (`id`,`userID`,`sessionID`,`timestamp`,`lastSeen`) VALUES (NULL,:userID,:sessionID,UNIX_TIMESTAMP(),'login.php')");
 		$statement->bindParam(':userID',$userID);
 		$statement->bindParam(':sessionID',$sessionID);

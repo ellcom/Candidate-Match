@@ -10,5 +10,4 @@ if($session->checkSession()){
 	echo "Go Away Now!";
 }
 
-
 ?>
