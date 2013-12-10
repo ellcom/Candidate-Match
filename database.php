@@ -200,6 +200,27 @@ class Database extends PDO {
 		return $statement->rowCount();
 	}
 
+	//
+	// Create / Modifiy Elections
+	//
+	function createElection($name, $endTimestamp,$active=true) {
+		
+		$statement = $this->prepare("SELECT * FROM `elections` WHERE name = :name LIMIT 1");
+		$statement->bindParam(':name', $name);
+		$statement->execute();
+		
+		if($statement->rowCount() == 1){
+			return false;
+		}
+		
+		
+		$statement = $this->prepare("INSERT INTO `elections` (`name`,`end_timestamp`,`active`) VALUES (:name,:end_timestamp,:active)");
+		$statement->bindParam(':name', $name);
+		$statement->bindParam(':end_timestamp', $endTimestamp);
+		$statement->bindParam(':active', $active);
+		
+		return $statement->execute();
+	}
 
 
 	// =======================================================================================
