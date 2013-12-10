@@ -1,9 +1,9 @@
 {include file="header.tpl" title="Voters"}
 
 <section id="main-matter">
-	<h1>Voter's Page: {$myvar|default:"Paul"}</h1>
+	<h1>Voter's Page</h1>
 	
-	<form name="questions">
+	<form method="post" id="questions">
 	{$i = 1}
 		{foreach $questions as $row}
 			Q{$i++}: {$row.questionText}
@@ -16,7 +16,7 @@
 				<span style=color:red ID="radio_info{$row.questionID}"></span>
 			<br><br>
 		{/foreach}
-		<input type="submit" value="Submit">
+		<input type="submit" name ="submit" value="Submit">
 	</form>
 </section>
 
