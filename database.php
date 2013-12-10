@@ -75,7 +75,7 @@ class Database extends PDO {
 	}
 	
 	function listUsers() {
-		$query = $this->query("SELECT id, username, email, name, picture, type, active FROM users");
+		$query = $this->query("SELECT id, username, email, name, type, active FROM users");
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
