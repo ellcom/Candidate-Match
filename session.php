@@ -19,6 +19,14 @@ class Session {
 		$_SESSION['type'] = $result['type'];
 	}
 	
+	function isAdmin() {
+		return isset($_SESSION['type']) && $_SESSION['type'] == 'admin';
+	}
+	
+	function isCandidate() {
+		return isset($_SESSION['type']) && $_SESSION['type'] == 'candidate';
+	}
+	
 	function logout() {
 		global $database;
 		$sessionID = session_id();
