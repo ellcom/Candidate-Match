@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2013 at 07:57 PM
+-- Generation Time: Dec 10, 2013 at 02:51 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -111,23 +111,23 @@ CREATE TABLE IF NOT EXISTS `electionquestions` (
   PRIMARY KEY (`id`),
   KEY `electionID` (`electionID`),
   KEY `questionID` (`questionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
 
 --
 -- Dumping data for table `electionquestions`
 --
 
 INSERT INTO `electionquestions` (`id`, `electionID`, `questionID`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 1, 4),
-(5, 1, 5),
-(6, 1, 6),
-(7, 1, 7),
-(8, 1, 8),
-(9, 1, 9),
-(10, 1, 10);
+(64, 1, 12),
+(65, 1, 4),
+(66, 1, 6),
+(67, 1, 3),
+(68, 1, 2),
+(69, 1, 7),
+(70, 1, 8),
+(71, 1, 11),
+(72, 1, 10),
+(73, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -157,6 +157,7 @@ INSERT INTO `elections` (`id`, `name`, `timestamp`) VALUES
 
 CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `electionID` int(11) NOT NULL,
   `questionText` varchar(200) NOT NULL DEFAULT '',
   `category` int(11) DEFAULT NULL,
   `divisiveness` float DEFAULT NULL,
@@ -168,19 +169,19 @@ CREATE TABLE IF NOT EXISTS `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `questionText`, `category`, `divisiveness`, `selected`) VALUES
-(1, 'Should we kill 3 billion people to save Earth?', NULL, 4, 0),
-(2, 'Should Ben cut his hair?', NULL, 0.612372, 0),
-(3, 'Is Garlen the coolest guy you know?', NULL, 0.612372, 0),
-(4, 'Does Elliot often say the gayest thing of the day?', NULL, 0, 0),
-(5, 'Are pears a tasty fruit?', NULL, 4, 0),
-(6, 'Stack Overflow is the most useful website', NULL, 0, 0),
-(7, 'Bing is a superior search engine to Google', NULL, 0.612372, 0),
-(8, 'Elliot is more strawberry blonde than ginger ', NULL, 1.22474, 0),
-(9, 'Garlen is too tall for his own good', NULL, 1.83712, 0),
-(10, 'Tesco is Garlens favourite shop in the world', NULL, 1.83712, 0),
-(11, 'There should be more questions in this DB', NULL, 1.83712, 0),
-(12, 'To what extent do you agree with this statement', NULL, 0, 0);
+INSERT INTO `questions` (`id`, `electionID`, `questionText`, `category`, `divisiveness`, `selected`) VALUES
+(1, 1, 'Should we kill 3 billion people to save Earth?', NULL, 4, 0),
+(2, 1, 'Should Ben cut his hair?', NULL, 0.612372, 0),
+(3, 1, 'Is Garlen the coolest guy you know?', NULL, 0.612372, 0),
+(4, 1, 'Does Elliot often say the gayest thing of the day?', NULL, 0, 0),
+(5, 1, 'Are pears a tasty fruit?', NULL, 4, 0),
+(6, 1, 'Stack Overflow is the most useful website', NULL, 0, 0),
+(7, 1, 'Bing is a superior search engine to Google', NULL, 0.612372, 0),
+(8, 1, 'Elliot is more strawberry blonde than ginger ', NULL, 1.22474, 0),
+(9, 1, 'Garlen is too tall for his own good', NULL, 1.83712, 0),
+(10, 1, 'Tesco is Garlens favourite shop in the world', NULL, 1.83712, 0),
+(11, 1, 'There should be more questions in this DB', NULL, 1.83712, 0),
+(12, 1, 'To what extent do you agree with this statement', NULL, 0, 0);
 
 -- --------------------------------------------------------
 

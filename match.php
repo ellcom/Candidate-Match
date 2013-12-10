@@ -23,25 +23,24 @@ class match
 	// FUNCTION calculateDifferences
 	// ==================================================
 	// returns a 2D array containing the candidate ID and
-	// their difference value sorted in ascending order,
-	public function calculateDifferences() 
+	// their similarity value sorted in ascending order,
+	function calculateDifferences()
 	{
 		$candidateDiffs = NULL;
+		$localCount = 0;
 
-		// for each candidateAnswer record
-		for ($i=0; $i < sizeof($this->candidateData); $i++) 
-		{ 
-			// determine if an array exists for the question already - if not, add one
+		foreach ($this->candidateData as $candidateAnswer) 
+		{
 			if ($candidateDiffs == NULL)
 			{
-				//echo 'Candidate not in array yet - adding Candidate<br>';
-				$candidateDiffs[] = array('candidateID'=> $this->candidateData[$i]['candidateID'], 'difference'=>0); 
+				$candidateDiffs[] = array('candidateID'=> $candidateAnswer['candidateID'],'similarity'=>0);
 			}
 			else
 			{
-				// check if an array exists
-				for ($j=0; $j < sizeof($candidateDiffs); $j++) { 
-					if ($this->candidateData[$i]['candidateID'] == $candidateDiffs[$j]['candidateID'])
+				foreach ($candidateDiffs as $difference)
+				{
+					//echo $candidateAnswer['candidateID'].' '.$difference['candidateID'].'<br>';
+					if ($candidateAnswer['candidateID'] == $difference['candidateID'])
 					{
 						$found = true;
 						break;
@@ -55,26 +54,60 @@ class match
 				if ($found == false)
 				{
 					//echo 'Candidate not in array yet - adding Candidate<br>';
-					$candidateDiffs[] = array('candidateID'=> $this->candidateData[$i]['candidateID'], 'difference'=>0); 
-				}
-			}
-
-			// adjust the according difference
-			for ($j=0; $j < sizeof($candidateDiffs); $j++) { 
-				if ($this->candidateData[$i]['candidateID'] == $candidateDiffs[$j]['candidateID']) 
+					$candidateDiffs[] = array('candidateID'=> $candidateAnswer['candidateID'],'similarity'=>0);
+				}	
+				else
 				{
-					$q = $this->candidateData[$i]['questionID'];
-					$diff = abs($this->localData[$q-1] - $this->candidateData[$i]['answer']);  
-
-					$candidateDiffs[$j]['difference'] += $diff;
-
-					//echo $candidateDiffs[$j]['difference'].' ';
+					//echo 'Candidate in array';
 				}
 			}
+
+			$count = 0;
+
+			foreach ($candidateDiffs as $difference) 
+			{
+				//echo 'count: '.$count.' ans: '.$candidateAnswer['candidateID'].' candDiffs: '.$difference['candidateID'].'<br>';
+				if ($candidateAnswer['candidateID'] == $difference['candidateID']) 
+				{
+					$q = $candidateAnswer['questionID'];
+
+					foreach ($this->localData as $local) 
+					{
+						if ($q == $local['questionID']) 
+						{
+							$diff = abs($local['answer'] - $candidateAnswer['answer']);  
+
+							$candidateDiffs[$count]['similarity'] += $diff;
+							//echo $candidateDiffs[$count]['similarity'].' ';
+						}
+					}
+				}
+				$count++;
+			}
+			$count = 0;	
+		}
+
+		// convert the difference value into a percentage depending
+		// on the amount of questions and the similarity value
+		// CHANGE TO 80 FOR 20 Q's!
+		$maxDiff = 40;
+
+		for ($i=0; $i < sizeof($candidateDiffs); $i++) 
+		{ 
+			echo 'diff: '.$candidateDiffs[$i]['similarity'].'<br>';
+			$percentage = ((($maxDiff-$candidateDiffs[$i]['similarity'])/$maxDiff)*100);
+			echo $percentage.'%<br>';
+
+			$candidateDiffs[$i]['similarity'] = $percentage;
 		}
 
 		// swap item1 and item2 around in function to reverse order.
-		usort($candidateDiffs, function ($item1, $item2) {return $item1['difference'] - $item2['difference'];});
+		function similarity_sort($a, $b)
+		{
+			return $a['similarity']<$b['similarity'];
+		}
+
+		usort($candidateDiffs, 'similarity_sort');
 
 		return $candidateDiffs;
 	}
