@@ -4,6 +4,8 @@ class Session {
 	
 
 	function __construct() {
+		session_cache_limiter('private');
+		session_cache_expire(30);
 		session_start();
 	}
 	
