@@ -1,17 +1,22 @@
 <?php 
 require_once('config.php');
 
+$electionID = $database->getActiveElection();
+$questions = $database->returnElectionQuestionData($electionID['0']['id']);
+$smarty->assign('questions', $questions);
+
 if(isset($_POST['submit']))
 {
-	$voterAnswers[] = array('questionID'=> $candidateAnswerData[$i]['questionID'], 'answer'=> $_POST['']);
-	echo trim($_POST['A2']);
+	foreach($questions as $row)
+	{
+		$i = $row['questionID'];
+		$voterAnswers[$i] = $_POST['A'.$row['questionID']];
+	}
+	print_r($voterAnswers);
 	$smarty->display('results.tpl');
 }
 else
 {
-	$electionID = $database->getActiveElection();
-	$questions = $database->returnElectionQuestionData($electionID['0']['id']);
-	$smarty->assign('questions', $questions);
 	$smarty->display('voters.tpl');
 }
 ?>
