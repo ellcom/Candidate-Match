@@ -3,7 +3,7 @@ require_once("config.php");
 require_once("session.php");
 
 if(isset($_SESSION['id'])){
-	header("Location: ./dashboard.php",true, 301);
+	header("Location: ./dashboard.php");
 }
 
 if(isset($_POST['username']) && isset($_POST['password'])){
@@ -14,7 +14,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 			$smarty->assign("username",$_POST['username']);
 	} elseif($loginResult['active'] == 1) {
 		$session->login($loginResult['id']);
-		header("Location: ./dashboard.php",true, 301);
+		header("Location: ./dashboard.php");
 	}else{
 		$smarty->assign("message","There's been a problem of sorts, contact an administrator.");
 		$smarty->assign("username",$_POST['username']);

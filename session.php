@@ -33,6 +33,7 @@ class Session {
 		global $database;
 		$sessionID = session_id();
 		session_destroy(); // <-- We don't need this anymore as we'll be out of the session
+		$this->cookieEater();
 		return $database->deleteSession($sessionID);
 	}
 	
@@ -45,19 +46,22 @@ class Session {
 			$database->updateSession($sessionID,$_SERVER['REQUEST_URI']);
 			return true;
 		}else {
-			if (isset($_SERVER['HTTP_COOKIE'])) {
-			    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-			    foreach($cookies as $cookie) {
-			        $parts = explode('=', $cookie);
-			        $name = trim($parts[0]);
-			        setcookie($name, '', time()-1000);
-			        setcookie($name, '', time()-1000, '/');
-			    }
-			}
+			$this->cookieEater();
 			return false;
 		}
 	}
 
+	function cookieEater() {
+		if (isset($_SERVER['HTTP_COOKIE'])) {
+		    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+		    foreach($cookies as $cookie) {
+		        $parts = explode('=', $cookie);
+		        $name = trim($parts[0]);
+		        setcookie($name, '', time()-1000);
+		        setcookie($name, '', time()-1000, '/');
+		    }
+		}
+	}
 }
 
 $session = new Session();
