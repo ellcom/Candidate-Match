@@ -90,7 +90,7 @@ class Database extends PDO {
 	}
 	
 	function getUser($id) {
-		$statement = $this->prepare("SELECT id, username, email, name, picture, type, active FROM users WHERE id = :id LIMIT 1");
+		$statement = $this->prepare("SELECT id, username, email, name, type, active FROM users WHERE id = :id LIMIT 1");
 		$statement->bindParam(':id',$id);
 		$statement->execute();
 		

@@ -80,9 +80,8 @@ $(document).ready(function() {
 	})
 	
 	$('tbody tr td:not(:first-child)').click(function() {
-		//alert($(this).parent().attr('id').slice(9))
-		var user = $(this).siblings().eq(1).html()
-		
+		var user = $(this).parent().attr('id').slice(9)
+		//var user = $(this).siblings().eq(1).html()
 		window.location = '/edituser.php?userid=' + user
 	})
 	
