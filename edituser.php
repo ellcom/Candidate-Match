@@ -4,7 +4,7 @@ require_once("session.php");
 
 
 if($session->checkSession() && $session->isAdmin()){
-	
+
 	if(!isset($_GET['userid'])){
 		header("Location: ./list.php", true, 302);
 	}
@@ -32,25 +32,25 @@ if($session->checkSession() && $session->isAdmin()){
 		}
 		// Change Username. Not Admin
 		if($user['username'] != $_POST['username']  && $user['username'] != 'admin'){
-			if(!$database->changeAttribute($user['id'], 'username', $_POST['username'], true)){
+			if(!$database->changeUserAttribute($user['id'], 'username', $_POST['username'], true)){
 				$message .= "Username Cannot be Changed! \n";
 			}
 		}
 		// Change Name
 		if($user['name'] != $_POST['name']){
-			$database->changeAttribute($user['id'], 'name', $_POST['name']);
+			$database->changeUserAttribute($user['id'], 'name', $_POST['name']);
 		}
 		// Change Email
 		if($user['email'] != $_POST['email']){
-			$database->changeAttribute($user['id'], 'email', $_POST['email']);
+			$database->changeUserAttribute($user['id'], 'email', $_POST['email']);
 		}
 		// Change Active. Not Admin
 		if($user['active'] != $_POST['active'] && $user['username'] != 'admin'){
-			$database->changeAttribute($user['id'], 'active', $_POST['active']);
+			$database->changeUserAttribute($user['id'], 'active', $_POST['active']);
 		}
 		// Change type. Not Admin
 		if($user['type'] != $_POST['type'] && $user['username'] != 'admin'){
-			$database->changeAttribute($user['id'], 'type', $_POST['type']);
+			$database->changeUserAttribute($user['id'], 'type', $_POST['type']);
 		}
 		
 		$user = $database->getUser($_GET['userid']);

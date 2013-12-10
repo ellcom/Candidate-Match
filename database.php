@@ -124,7 +124,7 @@ class Database extends PDO {
 		}
 	}
 	
-	function changeAttribute($id, $attr, $value, $locked=false){
+	function changeUserAttribute($id, $attr, $value, $locked=false){
 		// Theres another function for that
 		if($attr == 'password'){
 			echo "ERROR:: USE Database::changeUserPassword(id, newPasswordPlainText);";
