@@ -11,6 +11,7 @@
 	{foreach $questions as $row}
 		<label for="Q{$i++}">Q{$i}: {$row.questionText}</label> 
 		<br><br>
+			<input type="hidden" selected value="0">
 			<input type="radio" name="A{$row.questionID}" value="1" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '1';"><label>Strongly Disagree</label>
 			<input type="radio" name="A{$row.questionID}" value="2" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '2';"><label>Disagree</label>
 			<input type="radio" name="A{$row.questionID}" value="3" onclick="document.getElementById('radio_info{$row.questionID}').innerHTML = '3';"><label>No Opinion</label>
@@ -19,7 +20,7 @@
 			<span style=color:red ID="radio_info{$row.questionID}"></span>
 		<br><br>
 	{/foreach}
-	<input type="submit" name="submit" value="Submit">
+	<input type="submit" name="submit" value="Submit" onclick="">
 	</form>
 </section>
 
