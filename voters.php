@@ -1,10 +1,12 @@
 <?php 
 require_once('config.php');
 
-$questions = $database->returnElectionQuestionData();
+$questions = $database->returnElectionQuestionData(1);
+
+print_r($questions);
 
 $smarty->assign('questions', $questions);
-$smarty->display("voters.tpl");
+$smarty->display('voters.tpl');
 
 // ===== ADDING TO THE DB ======
 // adding new candidate answers to the database 
