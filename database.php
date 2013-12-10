@@ -214,7 +214,7 @@ class Database extends PDO {
 		}
 		
 		
-		$statement = $this->prepare("INSERT INTO `elections` (`name`,`end_timestamp`,`active`) VALUES (:name,:end_timestamp,:active)");
+		$statement = $this->prepare("INSERT INTO `elections` (`name`,`timestamp`,`end_timestamp`,`active`) VALUES (:name,unix_timestamp(),:end_timestamp,:active)");
 		$statement->bindParam(':name', $name);
 		$statement->bindParam(':end_timestamp', $endTimestamp);
 		$statement->bindParam(':active', $active);
