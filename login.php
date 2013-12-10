@@ -2,6 +2,10 @@
 require_once("config.php");
 require_once("session.php");
 
+if(isset($_SESSION['id'])){
+	header("Location: ./dashboard.php",true, 301);
+}
+
 if(isset($_POST['username']) && isset($_POST['password'])){
 	$loginResult = $database->authenticationCredentials($_POST['username'], $_POST['password']);
 	
