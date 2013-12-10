@@ -46,18 +46,6 @@ class Session {
 			return false;
 		}
 	}
-	
-	function isAdmin(){
-		global $database;
-		$sessionID = session_id();
-		$userID = $database->lookupSession($sessionID);
-		$user = $database->getUser($userID);
-		if ($user['type'] != "admin") {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 }
 
