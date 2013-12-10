@@ -223,11 +223,14 @@ class Database extends PDO {
 	}
 	
 	function listElections() {
-		$query = $this->query("SELECT * FROM elections");
+		$query = $this->query("SELECT * FROM `elections`");
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-
+	function getActiveElection() {
+		$query = $this->query("SELECT * FROM `elections` WHERE active = 1 LIMIT 1");
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
 
 
 	// =======================================================================================
