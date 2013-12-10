@@ -3,11 +3,13 @@
 <section id="main-matter">
 <h1>Edit User</h1>
 
-<form id="login">
+<form method="post" id="login">
 	{if isset($message)}
 	<span>{$message}</span>
 	<div class="clear"></div>
 	{/if}
+	
+	<input name="id" type="hidden" value="{$user.id}" />
 	
 	<label for="id" class="locked">Id:</label>
 	<input name="id" type="text" disabled="true" value="{$user.id}"/>
@@ -32,14 +34,21 @@
 	{/foreach}
 	</select>
 	<div class="clear"></div>
+	
+	<label for="active">Active: </label>
+	<select name="active">
+	  <option value="1" {if $user.active}selected{/if}>Yes</option>
+	  <option value="0" {if !$user.active}selected{/if}>No</option>
+	</select>
+	<div class="clear"></div>
+	
+	<label for="password">Password: </label>
+	<input name="password" type="password"/>
+	<div class="clear"></div>
+	
+	<button type="submit" name="submit">Save Changes</button>
+	<div class="clear"></div>
 </form>
-
-<button id="save_changes" name="save_changes">Save Changes</button>
-
-<button id="active_state" name="active_state">Deactivate Account</button>
-
-<button id="change_password" name="change_password">Change Password</button>
-
 <div class="clear"></div>
 
 

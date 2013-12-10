@@ -12,7 +12,7 @@ if($session->checkSession()){
   	} elseif (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z!@#$%]{8,40}$/',$_POST['password1'])) {
   		$smarty->assign("message","New Passwords must be 8 charactors (40 max) in length, contain 1 digit, 1 upercase and 1 lowercase letter");
   	}else{
-  		if($database->changeUserPassword($_SESSION['username'],$_POST['password0'],$_POST['password1'])){
+  		if($database->changeMyPassword($_SESSION['id'],$_POST['password0'],$_POST['password1'])){
   			header("Location: /dashboard.php",true, 301);
   		} else {
   			$smarty->assign("message","Invalid Password");

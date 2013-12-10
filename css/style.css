@@ -192,20 +192,13 @@ form#login button {
 }
 
 form#login select {
-	background: white;
-	border: 1px solid #999 !important;
 	float: right;
 	font-size: 16px;
 	line-height: 20px;
+	margin: 7px 0;
 	outline: none;
 	padding: 6px;
 	width: 224px;
-	
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 }
 
 

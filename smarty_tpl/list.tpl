@@ -30,5 +30,5 @@
 <button id="deactivate_users" name="deactivate_users">Deactivate User(s)</button>
 <button id="activate_users" name="activate_users">Activate User(s)</button>
 </section>
-<script src="/scripts/list.js" type="text/javascript">
+<script src="/scripts/list.js" type="text/javascript"></script>
 {include file="footer.tpl"}

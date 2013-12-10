@@ -42,19 +42,33 @@ class Database extends PDO {
 		return $statement->execute();
 	}
 	
-	function changeUserPassword($username, $password, $newPassword){
-		$statement = $this->prepare("UPDATE `users` SET password = :newPassword WHERE username = :username AND password = :password");
+	function changeMyPassword($id, $password, $newPassword){
+		$statement = $this->prepare("UPDATE `users` SET password = :newPassword WHERE id = :id AND password = :password");
 		
 		$newPassword = $this->encryptPassword($newPassword);
 		$password = $this->encryptPassword($password);
 		
 		$statement->bindParam(':newPassword', $newPassword);
-		$statement->bindParam(':username', $username);
+		$statement->bindParam(':id', $id);
 		$statement->bindParam(':password', $password);
 		
 		$statement->execute();
 		return ($statement->rowCount() == 1);
 	}
+	
+	function changeUserPassword($id, $password) {
+		$statement = $this->prepare("UPDATE `users` SET password = :password WHERE id = :id");
+		
+		$password = $this->encryptPassword($password);
+		
+		$statement->bindParam(':id', $id);
+		$statement->bindParam(':password', $password);
+		
+		$statement->execute();
+		return ($statement->rowCount() == 1);
+	}
+	
+	
 	
 	private function encryptPassword($password){
 		return hash("sha256","^7~Q?zÉ".$password);
@@ -98,6 +112,31 @@ class Database extends PDO {
 			$statement->bindParam(':id',$id);
 			$statement->execute();
 		}
+	}
+	
+	function changeAttribute($id, $attr, $value, $locked=false){
+		// Theres another function for that
+		if($attr == 'password'){
+			echo "ERROR:: USE Database::changeUserPassword(id, newPasswordPlainText);";
+			return false;
+		}
+		// This is used to stop people having the same username for example.
+		if($locked){
+			$statement = $this->prepare("SELECT $attr FROM `users` WHERE id != :id and $attr = :value");
+			$statement->bindParam(':id',$id);
+			$statement->bindParam(':value',$value);
+			$statement->execute();
+			if($statement->rowCount() != 0) {
+				return false;
+			}
+		}
+		
+		$statement = $this->prepare("UPDATE `users` SET $attr = :value WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->bindParam(':value',$value);
+		$statement->execute();
+		
+		return ($statement->rowCount() == 1);
 	}
 	
 	//

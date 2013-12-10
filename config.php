@@ -25,6 +25,6 @@ define("TEMPLATE_FOLDER",ROOT_FOLDER."/smarty_tpl");
 require_once(SMARTY_FOLDER."/libs/Smarty.class.php");
 $smarty = new Smarty;
 $smarty->setTemplateDir(TEMPLATE_FOLDER);
-$smarty->debugging = $DEBUG_MODE; 
+//$smarty->debugging = $DEBUG_MODE; <-- In the Way
 
 ?>
