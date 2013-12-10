@@ -23,7 +23,7 @@ $(document).ready(function() {
 		})
 		
 		$.ajax({
-			url: '/ajax_changeUsers.php',
+			url: './ajax_changeUsers.php',
 			type: 'POST',
 			data: {'ids': toVate, 'active' : active},
 			dataType: 'text',
@@ -58,7 +58,7 @@ $(document).ready(function() {
 		})
 	
 		$.ajax({
-			url: '/ajax_changeUsers.php',
+			url: './ajax_changeUsers.php',
 			type: 'POST',
 			data: {'ids': toDelete, 'delete' : 1},
 			dataType: 'text',
@@ -82,7 +82,7 @@ $(document).ready(function() {
 	$('tbody tr td:not(:first-child)').click(function() {
 		var user = $(this).parent().attr('id').slice(9)
 		//var user = $(this).siblings().eq(1).html()
-		window.location = '/edituser.php?userid=' + user
+		window.location = './edituser.php?userid=' + user
 	})
 	
 	$('thead tr th:not(:first-child)').click(function() {
