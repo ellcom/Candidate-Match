@@ -223,6 +223,8 @@ class Database extends PDO {
 	}
 
 
+
+
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
 	// =======================================================================================
@@ -311,9 +313,9 @@ class Database extends PDO {
 	// FUNCTION updateDivisiveness
 	// ==================================================
 	// updates the divisiveness of all questions in db
-	function updateDivisiveness()
+	function updateDivisiveness($electionID)
 	{
-		$tally = $this->tallyCandidateAnswers();
+		$tally = $this->tallyCandidateAnswers($electionID);
 
 		print_r($tally);
 
@@ -340,11 +342,12 @@ class Database extends PDO {
 	// attempts to add a candidate answer to the database
 	// will change the existing answer if one already
 	// exists
-	function returnDivisiveness()
+	function returnDivisiveness($electionID)
 	{
 		try
 		{
-			$check_query = $this->prepare("SELECT id, divisiveness, electionID FROM questions");
+			$check_query = $this->prepare("SELECT id, divisiveness, electionID FROM questions WHERE electionID = :electionID");
+			$check_query->bindParam('electionID', $electionID);
 			$check_query->execute();
 		}
 		catch (PDOexception $e) // or return an error
@@ -517,8 +520,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT c.questionID, c.candidateID, c.answer FROM candidateanswers AS c, questions AS q WHERE  ORDER BY c.candidateID ASC, c.questionID ASC");
-			$statement->bindParam(':electionID', $electionID);
+			$statement = $this->prepare("SELECT c.questionID, c.candidateID, c.answer FROM candidateanswers AS c ORDER BY c.candidateID ASC, c.questionID ASC");
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error
@@ -527,7 +529,29 @@ class Database extends PDO {
 		}		
 
 		// return data as an associative array
-		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		$allData = $statement->fetchAll(PDO::FETCH_ASSOC);
+		$candidateAnswerData = NULL;
+
+		foreach ($allData as $row) 
+		{
+			$qID = $row['questionID'];
+
+			$check_query = $this->prepare("SELECT id, divisiveness, electionID FROM questions WHERE electionID = :electionID AND id = :qID");
+			$check_query->bindParam(':electionID', $electionID);
+			$check_query->bindParam(':qID', $qID);
+			$check_query->execute();
+
+			$result = $check_query->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($result as $question) {
+				if ($question['electionID'] == $electionID) {
+					// store each row in new array
+					$candidateAnswerData[] = $row;
+				}
+			}
+		}
+
+		return $candidateAnswerData;
 	}
 	// ==================================================
 	// END FUNCTION returnCandidateAnswerData
@@ -537,7 +561,7 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing all candid-
 	// ate answers from the database.
-	function returnCandidateElectionAnswerData() 
+	function returnCandidateElectionAnswerData($electionID) 
 	{
 		try // query the database
 		{
@@ -550,7 +574,29 @@ class Database extends PDO {
 		}		
 
 		// return data as an associative array
-		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		$allData = $statement->fetchAll(PDO::FETCH_ASSOC);
+		$candidateElectionAnswerData = NULL;
+
+		foreach ($allData as $row) 
+		{
+			$qID = $row['questionID'];
+
+			$check_query = $this->prepare("SELECT id, divisiveness, electionID FROM questions WHERE electionID = :electionID AND id = :qID");
+			$check_query->bindParam(':electionID', $electionID);
+			$check_query->bindParam(':qID', $qID);
+			$check_query->execute();
+
+			$result = $check_query->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($result as $question) {
+				if ($question['electionID'] == $electionID) {
+					// store each row in new array
+					$candidateElectionAnswerData[] = $row;
+				}
+			}
+		}
+
+		return $candidateElectionAnswerData;
 	}
 	// ==================================================
 	// END FUNCTION returnCandidateElectionAnswerData
@@ -594,14 +640,7 @@ class Database extends PDO {
 	// calculating the divisiveness of a question.
 	function tallyCandidateAnswers($electionID)
 	{
-		$candidateAnswerData;
-
-		// obtain data from the database
-		foreach ($this->returnCandidateAnswerData($electionID) as $row) 
-		{
-			// store each row in new array
-			$candidateAnswerData[] = $row;
-		}
+		$candidateAnswerData = $this->returnCandidateAnswerData($electionID);
 
 		// variable to store the tally as an array
 		$candidateAnswerTally = NULL;
@@ -719,7 +758,7 @@ class Database extends PDO {
 	// election
 	function selectElectionQuestions($electionID)
 	{
-		$questions = $this->returnDivisiveness();
+		$questions = $this->returnDivisiveness($electionID);
 
 		function divisiveness_sort($a, $b)
 		{
