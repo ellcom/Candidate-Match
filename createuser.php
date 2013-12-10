@@ -18,7 +18,7 @@ if($session->checkSession() && $session->isAdmin()){
 		}elseif (empty(trim($_POST['email']))) {
 			$message .= "Email can't be blank";
 		}elseif($database->addUserToDatabase($_POST['username'], $_POST['password'], $_POST['email'], $_POST['name'], $_POST['type'], $_POST['active'])) {
-			header("Location: ./dashboard.php",true,301);
+			header("Location: ./dashboard.php");
 		}else{
 			$message .= "Username Exists";
 		}
