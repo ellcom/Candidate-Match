@@ -226,6 +226,25 @@ class Database extends PDO {
 		$query = $this->query("SELECT * FROM `elections`");
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
+	function lookupElectionWithId($id) {
+		$statement = $this->prepare("SELECT * FROM `elections` WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->execute();
+		
+		return $statement->fetch(PDO::FETCH_ASSOC);
+	}
+	
+	function candidatesForElectionID($id) {
+		$statement = $this->prepare(	"SELECT c.id as cid, u.id as uid, u.name as name, c.age as age, c.gender as gender, c.course as course, c.picture as picture, c.manifestoLink as link 
+										FROM `candidates` as c JOIN `users` as u ON c.userID = u.id 
+										WHERE c.electionID = :id;");
+										
+		$statement->bindParam(':id',$id);
+		$statement->execute();
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
 
 	function getActiveElection() {
 		$query = $this->query("SELECT * FROM `elections` WHERE active = 1 LIMIT 1");
