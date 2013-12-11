@@ -90,7 +90,7 @@ class match
 		// convert the difference value into a percentage depending
 		// on the amount of questions and the similarity value
 		// CHANGE TO 80 FOR 20 Q's!
-		$maxDiff = 40;
+		$maxDiff = sizeof($this->localData)*4;
 
 		for ($i=0; $i < sizeof($candidateDiffs); $i++) 
 		{ 

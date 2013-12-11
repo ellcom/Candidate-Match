@@ -340,6 +340,54 @@ class Database extends PDO {
 	// FUNCTION updateDivisiveness
 	// ==================================================
 	// updates the divisiveness of all questions in db
+	function addUserAnswer($questionID, $answer)
+	{
+		$check_query = $this->prepare("SELECT * FROM voteranswers WHERE questionID = :questionID AND answer = :answer");
+		$check_query->bindParam(':questionID', $questionID);
+		$check_query->bindParam(':answer', $answer);
+
+		$check_query->execute();
+		$result = $check_query->fetch(PDO::FETCH_ASSOC);
+		
+		if(sizeof($result) == 0)
+		{
+			$result = NULL;
+		}
+
+		if ($result == NULL) // add one
+		{
+			$add_query = $this->prepare("INSERT INTO voteranswers VALUES (NULL, :questionID, :answer, 1)");
+			$add_query->bindParam(':questionID', $questionID);
+			$add_query->bindParam(':answer', $answer);
+
+			$add_query->execute();
+
+			//echo "about to add<br>";
+		}
+		else // update one
+		{
+			//echo "<br>about to update: ";
+			//print_r($result);
+
+			$count = $result['count']+1;
+
+			$update_query = $this->prepare("UPDATE voteranswers SET count = :count WHERE questionID = :questionID AND answer = :answer");
+			$update_query->bindParam(':count', $count);
+			$update_query->bindParam(':questionID', $questionID);
+			$update_query->bindParam(':answer', $answer);
+
+			$update_query->execute();
+		}
+		//echo "<br><br>";
+	}
+
+	// ==================================================
+	// END FUNCTION insertAnswer
+
+
+	// FUNCTION updateDivisiveness
+	// ==================================================
+	// updates the divisiveness of all questions in db
 	function updateDivisiveness($electionID)
 	{
 		$tally = $this->tallyCandidateAnswers($electionID);

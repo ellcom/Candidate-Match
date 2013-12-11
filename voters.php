@@ -12,6 +12,9 @@ if(isset($_POST['submit']))
 	foreach($questions as $row)
 	{
 		array_push($voterAnswers, array('questionID'=>$row['questionID'], 'answer'=>$_POST['A'.$row['questionID']]));
+
+		// adds the answer as a record to voteranswers in db
+		$database->addUserAnswer($row['questionID'], $_POST['A'.$row['questionID']]);
 	}
 	print_r($voterAnswers);
 	echo '<br><br>';
