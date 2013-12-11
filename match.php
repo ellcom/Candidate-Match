@@ -94,9 +94,9 @@ class match
 
 		for ($i=0; $i < sizeof($candidateDiffs); $i++) 
 		{ 
-			echo 'diff: '.$candidateDiffs[$i]['similarity'].'<br>';
+			//echo 'diff: '.$candidateDiffs[$i]['similarity'].'<br>';
 			$percentage = ((($maxDiff-$candidateDiffs[$i]['similarity'])/$maxDiff)*100);
-			echo $percentage.'%<br>';
+			//echo $percentage.'%<br>';
 
 			$candidateDiffs[$i]['similarity'] = $percentage;
 		}

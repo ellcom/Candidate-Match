@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2013 at 02:51 PM
+-- Generation Time: Dec 11, 2013 at 02:59 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -139,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `elections` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
   `timestamp` int(11) DEFAULT NULL,
+  `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -146,8 +147,8 @@ CREATE TABLE IF NOT EXISTS `elections` (
 -- Dumping data for table `elections`
 --
 
-INSERT INTO `elections` (`id`, `name`, `timestamp`) VALUES
-(1, 'First Election', 1385911631);
+INSERT INTO `elections` (`id`, `name`, `timestamp`, `active`) VALUES
+(1, 'First Election', 1385911631, 1);
 
 -- --------------------------------------------------------
 
