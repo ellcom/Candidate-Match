@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 36px;
 }
 
-a, p, label, span, li, th, td {
+a, p, label, span, li, th, td, dd, dt {
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -86,6 +86,7 @@ section#main-matter li {
 	display:inline;
 	float:left;
 	line-height:1.5em;
+	margin-bottom: 5px;
 	width:50%;
 }
 
@@ -97,6 +98,10 @@ section#main-matter li a:hover {
 	background: #08f;
 	color: white;
 	text-decoration: none;
+}
+
+section#main-matter b {
+	font-weight: 700;
 }
 
 section#main-matter table {

@@ -25,7 +25,7 @@
 </table>
 
 </section>
-
+<script src="./scripts/list.js" type="text/javascript"></script>
 <script src="./scripts/listelections.js" type="text/javascript"></script>
 
 {include file="footer.tpl"}
