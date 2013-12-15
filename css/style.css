@@ -258,6 +258,7 @@ input[type='password'] {
 .clear {
 	clear: both;
 }
+
 ::selection {
 	background: rgb(111, 0, 255);
 	color: white;
@@ -266,4 +267,24 @@ input[type='password'] {
 ::-moz-selection {
 	background: rgb(111, 0, 255);
 	color: white;
+}
+
+
+.tabs a {
+	cursor: pointer;
+	padding: 5px;
+	background: #fff;
+	color: #000;
+	border: 1px solid #666;
+	border-bottom: 0;
+}
+.tabs a:hover, .tabs a.active{
+	background: #666;
+	color: #fff;
+}
+
+.tabContent{
+	border: 1px solid #aaa;
+	margin: 4px 0;
+	padding: 5px;
 }
