@@ -288,3 +288,20 @@ input[type='password'] {
 	margin: 4px 0;
 	padding: 5px;
 }
+
+section#main-matter textarea.questionnaire {
+	width: 400px; height: 85px;
+}
+
+div.question{
+	height: 150px;
+}
+
+div.radio{
+	width: 250px;
+	float: left;
+}
+
+div.justification{
+	float: left;
+}
