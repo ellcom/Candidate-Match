@@ -8,7 +8,6 @@
 	<li><a href="./password.php">Change My Password</a></li>
 </ul>	
 	
-
 {if $session.type eq 'admin'}{include file="admin.tpl"}{elseif $session.type eq 'candidate'}{include file="candidate.tpl"}{/if}
 </section>
 
