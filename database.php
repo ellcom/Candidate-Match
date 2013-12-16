@@ -441,6 +441,33 @@ class Database extends PDO {
 	// ============================== RETURNING DATA METHODS =================================
 	// =======================================================================================
 
+	// FUNCTION getCandidateIDForUser
+	// ==================================================
+	// returns a associative array containing data about
+	// a specific candidateID
+	function getCandidateIDForUser($userID)
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT c.id FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE u.id = :userID");
+			$statement->bindParam(':userID', $userID);
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
+		}	
+
+		$result = $statement->fetch(PDO::FETCH_ASSOC);
+
+		$candidateID = $result['id'];
+
+		return $candidateID;
+	}
+	// ==================================================
+	// END FUNCTION getCandidateIDForUser
+
+
 	// FUNCTION returnDataForCandidate
 	// ==================================================
 	// returns a associative array containing data about
