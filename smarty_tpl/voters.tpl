@@ -26,4 +26,6 @@
 	</form>
 </section>
 
+<script src="./scripts/voters.js" type="text/javascript"></script>
+
 {include file="footer.tpl"}
