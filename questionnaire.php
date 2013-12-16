@@ -20,17 +20,6 @@ foreach ( $eQuestions as $k=>$v )
 	unset($eQuestions[$k]['questionID']);
 }
 
-
-
-print_r($questions); // all questions
-echo "<br><br><br>";
-print_r($eQuestions); // questions just in the specified election
-echo "<br><br><br>";
-print_r($allCandAnswers); // all candidates current answers
-echo "<br><br><br>";
-print_r($elecCandAnswers); // candidates current answers for this election
-
-
 if($session->checkSession()){
 	$smarty->assign('session',$_SESSION);
 	
