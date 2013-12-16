@@ -501,7 +501,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT c.id, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.id = :candidateID ORDER BY c.id");
+			$statement = $this->prepare("SELECT c.id, c.electionID, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.id = :candidateID ORDER BY c.id");
 			$statement->bindParam(':candidateID', $candidateID);
 			$statement->execute();
 		}
@@ -522,7 +522,7 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing all q's
 	// from the db for printing out.
-	function returnQuestionData($electionID) 
+	function returnQuestionData() 
 	{
 		try // query the database
 		{
