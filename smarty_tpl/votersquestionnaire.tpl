@@ -10,7 +10,7 @@
 		{$i = 0}
 		{foreach $questions as $row}
 		<div class="question">
-			<label for="Q{$i++}">Q{$i}: {$row.questionText}</label> 
+			<label for="Q{$i++}{*Print and Increment $i*}">Q{$i}: {$row.questionText}</label> 
 			<br><br>
 			<div class="radio">
 				<input type="hidden" selected value="0">
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		{/foreach}
-		<input type="submit" name="submit" value="Submit" onclick="">
+		<input type="submit" name="submit" value="Submit">
 	</form>
 </section>
 

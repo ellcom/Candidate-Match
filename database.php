@@ -574,7 +574,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT questionID, answer FROM candidateanswers WHERE candidateID = :candidateID ORDER BY id");
+			$statement = $this->prepare("SELECT questionID, answer, justification FROM candidateanswers WHERE candidateID = :candidateID ORDER BY id");
 			$statement->bindParam('candidateID', $candidateID);
 			$statement->execute();
 		}
