@@ -58,7 +58,7 @@ $(document).ready(function() {
 			success: function(data){
 				if(data == "1"){
 					$.each(toRemove, function() {
-						$(this).slideUp()
+						$(this).remove()
 					})
 				
 				}else {
