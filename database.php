@@ -497,12 +497,11 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing data about
 	// a specific candidateID
-	function returnDataForCandidate($electionID, $candidateID)
+	function returnDataForCandidate($candidateID)
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT c.id, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.electionID = :electionID AND c.id = :candidateID ORDER BY c.id");
-			$statement->bindParam(':electionID', $electionID);
+			$statement = $this->prepare("SELECT c.id, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.id = :candidateID ORDER BY c.id");
 			$statement->bindParam(':candidateID', $candidateID);
 			$statement->execute();
 		}
