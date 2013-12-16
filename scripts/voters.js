@@ -8,12 +8,12 @@ $(document).ready(function() {
 	});
 	
 	$('input:radio').change(function() {
-		var count = 0;
-		$.each(names, function() {
-			  count++;
-		});
+	//	var count = 0;
+	//	$.each(names, function() {
+	//		  count++;
+	//	});
 		
-		if($('input:radio:checked').length == count) {
+		if($('input:radio:checked').length == names.length) {
 			$('input[type="submit"]').removeAttr('disabled');
 		}
 	})
