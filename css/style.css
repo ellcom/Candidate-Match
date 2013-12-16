@@ -269,15 +269,15 @@ input[type='password'] {
 	color: white;
 }
 
-
 .tabs a {
-	cursor: pointer;
-	padding: 5px;
-	background: #fff;
-	color: #000;
+	background-color: #fff;
 	border: 1px solid #666;
 	border-bottom: 0;
+	color: #000;
+	cursor: pointer;
+	padding: 5px;
 }
+
 .tabs a:hover, .tabs a.active{
 	background: #666;
 	color: #fff;
@@ -290,7 +290,8 @@ input[type='password'] {
 }
 
 section#main-matter textarea.questionnaire {
-	width: 400px; height: 85px;
+	height: 85px;
+	width: 400px;
 }
 
 div.question{
@@ -298,8 +299,8 @@ div.question{
 }
 
 div.radio{
-	width: 250px;
 	float: left;
+	width: 250px;
 }
 
 div.justification{
