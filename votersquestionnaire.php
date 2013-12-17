@@ -8,6 +8,7 @@ $smarty->assign('questions', $questions);
 
 if(isset($_POST['submit']))
 {
+	// Graph data
 	$voterAnswers = array();
 	foreach($questions as $row)
 	{
@@ -28,7 +29,7 @@ if(isset($_POST['submit']))
 	$graphValsPHP = array();
 	foreach($voterSimilarities as $row)
 	{
-		$candidateInfo = $database->returnDataForCandidate($electionID, $row['candidateID']);
+		$candidateInfo = $database->returnDataForCandidate($row['candidateID']);
 		array_push($graphNamesPHP, $candidateInfo['name']);
 		array_push($graphValsPHP, $row['similarity']);
 	}
@@ -65,8 +66,6 @@ if(isset($_POST['submit']))
 		var jGraph3 = new Chart(ctx3).Line(data);
 	</script>
 	<?php
-
-	
 }
 else
 {
