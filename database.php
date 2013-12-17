@@ -203,7 +203,7 @@ class Database extends PDO {
 	//
 	// Create / Modifiy Elections
 	//
-	function createElection($name,$openTimestamp,$endTimestamp) {
+	function createElection($name,$description,$openTimestamp,$endTimestamp) {
 		
 		$statement = $this->prepare("SELECT * FROM `elections` WHERE name = :name LIMIT 1");
 		$statement->bindParam(':name', $name);
@@ -214,8 +214,9 @@ class Database extends PDO {
 		}
 		
 		
-		$statement = $this->prepare("INSERT INTO `elections` (`name`,`timestamp`,`end_timestamp`) VALUES (:name,:open_timestamp,:end_timestamp)");
+		$statement = $this->prepare("INSERT INTO `elections` (`name`,`description`,`timestamp`,`end_timestamp`) VALUES (:name,:description,:open_timestamp,:end_timestamp)");
 		$statement->bindParam(':name', $name);
+		$statement->bindParam(':description', $description);
 		$statement->bindParam(':end_timestamp', $endTimestamp);
 		$statement->bindParam(':open_timestamp', $openTimestamp);
 		$statement->execute();
@@ -269,6 +270,15 @@ class Database extends PDO {
 		$query->bindParam(':timestamp',$timestamp);
 		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function changeElectionAttribute($id, $attr, $value){
+		$statement = $this->prepare("UPDATE `elections` SET $attr = :value WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->bindParam(':value',$value);
+		$statement->execute();
+		
+		return ($statement->rowCount() == 1);
 	}
 	
 	function removeFromElection($ids,$election) {

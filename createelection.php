@@ -13,13 +13,17 @@ if($session->checkSession() && $session->isAdmin()){
 			$open_timestamp = mktime($_POST['Open_Time_Hour'], 0, 0, $_POST['Open_Date_Month'], $_POST['Open_Date_Day'], $_POST['Open_Date_Year']);
 			$close_timestamp = mktime($_POST['Close_Time_Hour'], 0, 0, $_POST['Close_Date_Month'], $_POST['Close_Date_Day'], $_POST['Close_Date_Year']);
 			
-			$insertID = $database->createElection($_POST['name'],$open_timestamp, $close_timestamp);
+			if($open_timestamp >= $close_timestamp){
+				$message = "Elections must start before they end";
+			}else{
+				$insertID = $database->createElection($_POST['name'],$_POST['description'],$open_timestamp, $close_timestamp);
 			
-			if($insertID){
-				header("Location: ./electionprofiler.php?id=$insertID");
-				exit;
-			}else {
-				$message = "Election must have a unique name";
+				if($insertID){
+					header("Location: ./electionprofiler.php?id=$insertID");
+					exit;
+				}else {
+					$message = "Election must have a unique name";
+				}
 			}
 		}
 	}
@@ -30,5 +34,4 @@ if($session->checkSession() && $session->isAdmin()){
 } else{ 
 	echo "Go Away Now!";
 }
-
 ?>

@@ -7,10 +7,11 @@
 
 <ul>
 	<li><b>ID:</b> <span id="electionId">{$election.id}</span></li>
-	<li><b>Created:</b> {$election.timestamp|date_format} {$election.timestamp|date_format:'%I:%M %p'}</li>
+	<li><b>Start Time:</b> {$election.timestamp|date_format} {$election.timestamp|date_format:'%I:%M %p'}</li>
 	<li><b>End Time:</b> {$election.end_timestamp|date_format} {$election.end_timestamp|date_format:'%I:%M %p'}</li>
-	<li><b>Active:</b> {if $election.active}Yes{else}No{/if}</li>
-	<li><a href="./editelection.php">Edit</a></li>
+	<li><b>Live:</b> {if $election.timestamp lte $smarty.now and $election.end_timestamp gt $smarty.now}Yes{else}No{/if}</li>
+	<li><b>Description:</b> {$election.description}</li>
+	<li><a href="./editelection.php?id={$election.id}">Edit</a></li>
 </ul>
 
 <h2>Candidates</h2>

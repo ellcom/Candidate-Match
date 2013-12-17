@@ -13,6 +13,10 @@
 	<input name="name" type="text"/>
 	<div class="clear"></div>
 	
+	<label for="description">Description: </label>
+	<input name="description" type="text" value="{$election.description|default:""}"/>
+	<div class="clear"></div>
+	
 	<br />	
 	{* Start Hour*}
 	<label for="Open_Time_Hour">Open Hour: </label>
