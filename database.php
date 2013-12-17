@@ -250,6 +250,33 @@ class Database extends PDO {
 		$query = $this->query("SELECT * FROM `elections` WHERE active = 1 LIMIT 1");
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
+	function removeFromElection($ids,$election) {
+		$statement = $this->prepare("DELETE FROM candidates WHERE id = :id");
+		
+		foreach($ids as $id){
+			$statement->bindParam(':id', $id);
+			$statement->execute();
+		}
+	}
+	
+	function listUnassignedCandidates() {
+		$query = $this->query("select u.username, u.id from users u WHERE u.type = 'candidate' and u.id NOT IN (SELECT c.userID FROM candidates c)");
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function addCandidateToElection($userID, $course, $age, $gender, $link, $election){
+		$statement = $this->prepare("INSERT INTO `candidates` (`userID`,`course`,`age`,`gender`,`manifestoLink`,`electionID`) VALUES (:userID,:course,:age,:gender,:link,:electionID)");
+		
+		$statement->bindParam(':userID', $userID); 
+		$statement->bindParam(':electionID', $election);
+		$statement->bindParam(':course', $course);
+		$statement->bindParam(':age', $age);
+		$statement->bindParam(':gender', $gender);
+		$statement->bindParam(':link', $link);
+		
+		$statement->execute();
+	}
 
 
 	// =======================================================================================

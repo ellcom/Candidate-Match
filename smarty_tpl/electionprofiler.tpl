@@ -6,11 +6,11 @@
 <h2>{$election.name}</h2>
 
 <ul>
-	<li><b>ID:</b> {$election.id}</li>
+	<li><b>ID:</b> <span id="electionId">{$election.id}</span></li>
 	<li><b>Created:</b> {$election.timestamp|date_format} {$election.timestamp|date_format:'%I:%M %p'}</li>
 	<li><b>End Time:</b> {$election.end_timestamp|date_format} {$election.end_timestamp|date_format:'%I:%M %p'}</li>
 	<li><b>Active:</b> {if $election.active}Yes{else}No{/if}</li>
-	<li><a href=".">Edit</a></li>
+	<li><a href="./editelection.php">Edit</a></li>
 </ul>
 
 <table>
@@ -26,7 +26,7 @@
 			<th id="th_link">Link
 	<tbody>
 		{foreach $candidates as $row}<tr id="candidate_row_{$row.cid}">
-			<td><input type="checkbox" name="election_{$row.id}" id="tickbox_user_{$row.id}">
+			<td><input type="checkbox" name="election_user_{$row.cid}" id="tickbox_user_{$row.cid}">
 			<td>{$row.cid}
 			<td>{$row.uid}
 			<td>{$row.name}
@@ -38,6 +38,8 @@
 		{/foreach}
 </table>
 
+<button id="addCandidateToElection">Add Candidate(s)</button>
+<button id="removeCandidateFromElection" class="red">Remove Candidate(s)</button>
 
 </section>
 

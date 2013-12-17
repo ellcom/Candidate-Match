@@ -8,14 +8,14 @@ $(document).ready(function() {
 		var toDelete = [], toRemove = []
 	
 		checked.each(function() {
-			toDelete.push(this.name.slice(5))
+			toDelete.push(this.name.slice(9))
 			toRemove.push($(this).parent().parent())
 		})
 		
 		$.ajax({
 			url: './ajax_changeElection.php',
 			type: 'POST',
-			data: {'ids': toDelete, 'removeCandidate' : 1},
+			data: {'ids': toDelete, 'removeCandidatesFromElection' : $('#electionId').html()},
 			dataType: 'text',
 			timeout: 2000,
 			success: function(data){
@@ -34,5 +34,9 @@ $(document).ready(function() {
 		})
 		
 	})
-		
+	
+	$('#addCandidateToElection').click(function(){
+		location = "./addcandidatetoelection.php?eid=" + $("#electionId").text()
+	})
+	
 })

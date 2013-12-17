@@ -246,6 +246,16 @@ button {
 	text-shadow: 0 1px 1px #a0d4ec;
 }
 
+button.red {
+	background: linear-gradient(to bottom, #eca0a0 0%, #b50f0f 100%) white;
+	border: 1px solid #b50f0f;
+	color: #8e1111;
+	text-shadow: 0 1px 1px #eca0a0;
+}
+
+button.red:active {
+	background: linear-gradient(to bottom, #b50f0f 0%, #eca0a0 100%) white;
+}
 
 button:active {
 	background: linear-gradient(to bottom, #0f7bb5 0%, #a0d4ec 100%) white;
