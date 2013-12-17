@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `elections` (
   `name` varchar(200) DEFAULT NULL,
   `description` varchar(200) NOT NULL DEFAULT 'No description set.',
   `timestamp` int(11) DEFAULT NULL,
+  `active` tinyint(4) NOT NULL,
   `end_timestamp` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
