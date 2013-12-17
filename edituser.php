@@ -6,13 +6,13 @@ require_once("session.php");
 if($session->checkSession() && $session->isAdmin()){
 
 	if(!isset($_GET['userid'])){
-		header("Location: ./list.php", true, 302);
+		header("Location: ./list.php");
 	}
 	
 	$user = $database->getUser($_GET['userid']);
 
 	if($user == NULL){
-		header("Location: ./list.php", true, 302);
+		header("Location: ./list.php");
 	}
 
 	if(isset($_POST['submit'])){
