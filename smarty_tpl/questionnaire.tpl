@@ -19,11 +19,11 @@
 				<label for="Q{$i++}{*Print and Increment $i*}">Q{$i}: {$row.questionText}</label> 
 				<br><br>
 				<div class="radio">
-					<input type="radio" name="A{$row.id}" id="{$row.id}1" value="1"><label>Strongly Disagree</label><br>
-					<input type="radio" name="A{$row.id}" id="{$row.id}2" value="2"><label>Disagree</label><br>
-					<input type="radio" name="A{$row.id}" id="{$row.id}3" value="3"><label>No Opinion</label><br>
-					<input type="radio" name="A{$row.id}" id="{$row.id}4" value="4"><label>Agree</label><br>
-					<input type="radio" name="A{$row.id}" id="{$row.id}5" value="5"><label>Strongly Agree</label>
+					<input type="radio" name="A{$row.id}" id="{$row.id}1" value="1"><label for="{$row.id}1">Strongly Disagree</label><br>
+					<input type="radio" name="A{$row.id}" id="{$row.id}2" value="2"><label for="{$row.id}2">Disagree</label><br>
+					<input type="radio" name="A{$row.id}" id="{$row.id}3" value="3"><label for="{$row.id}3">No Opinion</label><br>
+					<input type="radio" name="A{$row.id}" id="{$row.id}4" value="4"><label for="{$row.id}4">Agree</label><br>
+					<input type="radio" name="A{$row.id}" id="{$row.id}5" value="5"><label for="{$row.id}5">Strongly Agree</label>
 				</div>
 				<div class="justification">
 					<label>Justification:</label><textarea name="A{$row.id}text" maxlength="200" class="questionnaire" {if $live eq 'no'} readonly {/if}>{$answers[$i-1].justification}</textarea> 
