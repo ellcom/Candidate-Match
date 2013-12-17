@@ -80,4 +80,9 @@ $(document).ready(function() {
 		})
 		
 	})
+	
+	$('table:not(:first) tbody tr td:not(:first-child)').click(function() {
+		var id = $(this).parent().attr('id').slice(13)
+		window.location = './editquestion.php?id=' + id
+	})
 })

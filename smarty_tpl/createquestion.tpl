@@ -17,7 +17,7 @@
 	<input name="category" type="text"/>
 	<div class="clear"></div>
 	
-	<label for="type">Add to Election: </label>
+	<label for="election">Add to Election: </label>
 	<select name="election">
 	{foreach $elections as $election}
 	  <option value="{$election.id}" {if isset($election_id) && $election.id eq $election_id}selected{/if}>{$election.name}</option>

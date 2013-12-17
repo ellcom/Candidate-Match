@@ -326,6 +326,18 @@ class Database extends PDO {
 		
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
+	function getQuestion($id) {
+		$statement = $this->prepare("SELECT * FROM questions WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->execute();
+		
+		if($statement->rowCount() == 0){
+			return NULL;
+		}
+		
+		return $statement->fetch(PDO::FETCH_ASSOC);
+	}
 
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
