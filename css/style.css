@@ -90,11 +90,11 @@ section#main-matter li {
 	width:50%;
 }
 
-section#main-matter li a {
+section#main-matter a {
 	color: #08f;
 }
 
-section#main-matter li a:hover {
+section#main-matter a:hover {
 	background: #08f;
 	color: white;
 	text-decoration: none;

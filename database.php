@@ -338,6 +338,15 @@ class Database extends PDO {
 		
 		return $statement->fetch(PDO::FETCH_ASSOC);
 	}
+	
+	function changeQuestionAttribute($id, $attr, $value){
+		$statement = $this->prepare("UPDATE `questions` SET $attr = :value WHERE id = :id LIMIT 1");
+		$statement->bindParam(':id',$id);
+		$statement->bindParam(':value',$value);
+		$statement->execute();
+		
+		return ($statement->rowCount() == 1);
+	}
 
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
