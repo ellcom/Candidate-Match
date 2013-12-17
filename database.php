@@ -275,10 +275,11 @@ class Database extends PDO {
 	// ==================================================
 	// updates an existing answer for a candidate in the
 	// database.
-	private function updateAnswer($input, $questionID, $candidateID) 
+	private function updateAnswer($answer, $justification, $questionID, $candidateID) 
 	{
-		$update_query = $this->prepare("UPDATE candidateanswers SET answer = :input WHERE questionID = :questionID AND candidateID = :candidateID");
-		$update_query->bindParam(':input', $input);
+		$update_query = $this->prepare("UPDATE candidateanswers SET answer = :answer, justification = :justification WHERE questionID = :questionID AND candidateID = :candidateID");
+		$update_query->bindParam(':answer', $answer);
+		$update_query->bindParam(':justification', $justification);
 		$update_query->bindParam(':questionID', $questionID);
 		$update_query->bindParam(':candidateID', $candidateID);
 
@@ -292,12 +293,13 @@ class Database extends PDO {
 	// ==================================================
 	// adds a new answer in the database provided one do-
 	// es not exist already
-	private function addAnswer($input, $questionID, $candidateID) 
+	private function addAnswer($answer, $justification, $questionID, $candidateID) 
 	{
-		$add_query = $this->prepare("INSERT INTO candidateanswers VALUES (NULL, :questionID, :candidateID, :input, NULL)");
+		$add_query = $this->prepare("INSERT INTO candidateanswers VALUES (NULL, :questionID, :candidateID, :answer, :justification)");
 		$add_query->bindParam(':questionID', $questionID);
 		$add_query->bindParam(':candidateID', $candidateID);
-		$add_query->bindParam(':input', $input);
+		$add_query->bindParam(':answer', $answer);
+		$add_query->bindParam(':justification', $justification);
 
 		return $add_query->execute();
 	}
@@ -335,17 +337,17 @@ class Database extends PDO {
 	// attempts to add a candidate answer to the database
 	// will change the existing answer if one already
 	// exists
-	function insertAnswer($input, $questionID, $candidateID)
+	function insertAnswer($answer, $justification, $questionID, $candidateID)
 	{
 		$present = $this->checkForAnswer($questionID, $candidateID);
 
 		if($present != NULL) // answer already exists, so update it
 		{
-			$this->updateAnswer($input, $questionID, $candidateID);
+			$this->updateAnswer($answer, $justification, $questionID, $candidateID);
 		}
 		else // answer doesnt exist, so add it.
 		{
-			$this->addAnswer($input, $questionID, $candidateID);
+			$this->addAnswer($answer, $justification, $questionID, $candidateID);
 		}
 	}
 	// ==================================================
