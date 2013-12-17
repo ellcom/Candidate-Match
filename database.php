@@ -246,8 +246,23 @@ class Database extends PDO {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	// Active: election that has not reached its end timestamp
 	function getActiveElection() {
-		$query = $this->query("SELECT * FROM `elections` WHERE active = 1 LIMIT 1");
+		$query = $this->prepare("SELECT * FROM `elections` WHERE end_timestamp > :timestamp;");
+		$date = new DateTime();
+		$timestamp = $date->getTimestamp();
+		$query->bindParam(':timestamp',$timestamp);
+		$query->execute();
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	// Live: election that has passed its start timestamp and not reached its end timestamp
+	function getLiveElection() {
+		$query = $this->prepare("SELECT * FROM `elections` WHERE end_timestamp > :timestamp AND timestamp < :timestamp;");
+		$date = new DateTime();
+		$timestamp = $date->getTimestamp();
+		$query->bindParam(':timestamp',$timestamp);
+		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
@@ -287,10 +302,11 @@ class Database extends PDO {
 	// ==================================================
 	// updates an existing answer for a candidate in the
 	// database.
-	private function updateAnswer($input, $questionID, $candidateID) 
+	private function updateAnswer($answer, $justification, $questionID, $candidateID) 
 	{
-		$update_query = $this->prepare("UPDATE candidateanswers SET answer = :input WHERE questionID = :questionID AND candidateID = :candidateID");
-		$update_query->bindParam(':input', $input);
+		$update_query = $this->prepare("UPDATE candidateanswers SET answer = :answer, justification = :justification WHERE questionID = :questionID AND candidateID = :candidateID");
+		$update_query->bindParam(':answer', $answer);
+		$update_query->bindParam(':justification', $justification);
 		$update_query->bindParam(':questionID', $questionID);
 		$update_query->bindParam(':candidateID', $candidateID);
 
@@ -304,12 +320,13 @@ class Database extends PDO {
 	// ==================================================
 	// adds a new answer in the database provided one do-
 	// es not exist already
-	private function addAnswer($input, $questionID, $candidateID) 
+	private function addAnswer($answer, $justification, $questionID, $candidateID) 
 	{
-		$add_query = $this->prepare("INSERT INTO candidateanswers VALUES (NULL, :questionID, :candidateID, :input, NULL)");
+		$add_query = $this->prepare("INSERT INTO candidateanswers VALUES (NULL, :questionID, :candidateID, :answer, :justification)");
 		$add_query->bindParam(':questionID', $questionID);
 		$add_query->bindParam(':candidateID', $candidateID);
-		$add_query->bindParam(':input', $input);
+		$add_query->bindParam(':answer', $answer);
+		$add_query->bindParam(':justification', $justification);
 
 		return $add_query->execute();
 	}
@@ -347,17 +364,17 @@ class Database extends PDO {
 	// attempts to add a candidate answer to the database
 	// will change the existing answer if one already
 	// exists
-	function insertAnswer($input, $questionID, $candidateID)
+	function insertAnswer($answer, $justification, $questionID, $candidateID)
 	{
 		$present = $this->checkForAnswer($questionID, $candidateID);
 
 		if($present != NULL) // answer already exists, so update it
 		{
-			$this->updateAnswer($input, $questionID, $candidateID);
+			$this->updateAnswer($answer, $justification, $questionID, $candidateID);
 		}
 		else // answer doesnt exist, so add it.
 		{
-			$this->addAnswer($input, $questionID, $candidateID);
+			$this->addAnswer($answer, $justification, $questionID, $candidateID);
 		}
 	}
 	// ==================================================
@@ -468,6 +485,33 @@ class Database extends PDO {
 	// ============================== RETURNING DATA METHODS =================================
 	// =======================================================================================
 
+	// FUNCTION getCandidateIDForUser
+	// ==================================================
+	// returns a associative array containing data about
+	// a specific candidateID
+	function getCandidateIDForUser($userID)
+	{
+		try // query the database
+		{
+			$statement = $this->prepare("SELECT c.id FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE u.id = :userID");
+			$statement->bindParam(':userID', $userID);
+			$statement->execute();
+		}
+		catch (PDOexception $e) // or return an error
+		{
+			echo 'ERROR (func: returnCandidateData): '.$e->getMessage();
+		}	
+
+		$result = $statement->fetch(PDO::FETCH_ASSOC);
+
+		$candidateID = $result['id'];
+
+		return $candidateID;
+	}
+	// ==================================================
+	// END FUNCTION getCandidateIDForUser
+
+
 	// FUNCTION returnDataForCandidate
 	// ==================================================
 	// returns a associative array containing data about
@@ -497,12 +541,11 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing data about
 	// a specific candidateID
-	function returnDataForCandidate($electionID, $candidateID)
+	function returnDataForCandidate($candidateID)
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT c.id, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.electionID = :electionID AND c.id = :candidateID ORDER BY c.id");
-			$statement->bindParam(':electionID', $electionID);
+			$statement = $this->prepare("SELECT c.id, c.electionID, c.age, c.gender, c.course, c.picture, c.manifestoLink, u.name FROM candidates AS c INNER JOIN users AS u ON c.userID = u.id WHERE c.id = :candidateID ORDER BY c.id");
 			$statement->bindParam(':candidateID', $candidateID);
 			$statement->execute();
 		}
@@ -523,7 +566,7 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing all q's
 	// from the db for printing out.
-	function returnQuestionData($electionID) 
+	function returnQuestionData() 
 	{
 		try // query the database
 		{
@@ -575,7 +618,7 @@ class Database extends PDO {
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT questionID, answer FROM candidateanswers WHERE candidateID = :candidateID ORDER BY id");
+			$statement = $this->prepare("SELECT questionID, answer, justification FROM candidateanswers WHERE candidateID = :candidateID ORDER BY id");
 			$statement->bindParam('candidateID', $candidateID);
 			$statement->execute();
 		}

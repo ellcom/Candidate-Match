@@ -297,6 +297,15 @@ input[type='password'] {
 	border: 1px solid #aaa;
 	margin: 4px 0;
 	padding: 5px;
+	width: 325px;
+}
+
+.tabContainer{
+	float: left;
+}
+
+.results{
+	height: 500px;
 }
 
 section#main-matter textarea.questionnaire {
