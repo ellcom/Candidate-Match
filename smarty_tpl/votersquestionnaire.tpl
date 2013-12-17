@@ -3,7 +3,7 @@
 <section id="main-matter">
 	<h1>Voter's Page</h1>
 	
-	<form method="post" id="questions">
+	<form method="post" action="./results.php?election={$electionID}" id="questions">
 		{if isset($message)}
 		<span>{$message}</span>
 		{/if}

@@ -32,8 +32,54 @@
 				</div>	  
 			</div>
 		</div>
+		
+		<div class="collapsiblePanelContainer">
+		
+			{$i = -1}
+			{foreach $data as $row}
+			
+			<div class="CollapsiblePanel" id="CollapsiblePanel{$i++}{*print and increment $i*}">
+				
+				<div class="CollapsiblePanelTab" tabindex="0">
+					{$row.0.name}
+					#{i+1}{*Ranking*}
+				</div>
+				
+				<div class="CollapsiblePanelContent">
+					<div id="candidate">
+						<div id="candImage">
+							<img src="{$row.0.picture}" width="120" height="120"  alt=""/>
+						</div>
+						<div id="candInfo">
+							NAME: {$row.0.name}
+							<br/>Age: {$row.0.age}
+							<br/>Gender: {$row.0.gender}
+							<br/>Course: {$row.0.course}
+							<br/>Website: <a href="{$row.0.manifestoLink}">Click here for Manifesto</a>
+						</div>
+					</div>
+	
+					<div id="Bottom">
+						<div  id="qComparison">	
+							{$j = 1}
+							{foreach $row.1 as $subrow}
+							<p>Q{$j++}: {$subrow.1}
+							<br/>Their answer:<span>{$subrow.2}</span>
+							<br/>Your Answer: <span>{$subrow.4}</span>
+							<br/><span>{$subrow.3}</span></p>
+							{/foreach}
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{/foreach}
+			
+		</div>
 	</div>
 	
 </section>
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
 {include file="footer.tpl"}
