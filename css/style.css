@@ -288,24 +288,20 @@ input[type='password'] {
 	padding: 5px;
 }
 
-.tabs a:hover, .tabs a.active{
+.tabs a:hover, .tabs a.active {
 	background: #666;
 	color: #fff;
 }
 
-.tabContent{
+.tabContent {
 	border: 1px solid #aaa;
 	margin: 4px 0;
 	padding: 5px;
 	width: 325px;
 }
 
-.tabContainer{
+.tabContainer {
 	float: left;
-}
-
-.results{
-	height: 500px;
 }
 
 section#main-matter textarea.questionnaire {
@@ -313,15 +309,58 @@ section#main-matter textarea.questionnaire {
 	width: 400px;
 }
 
-div.question{
+div.question {
 	height: 150px;
 }
 
-div.radio{
+div.radio {
 	float: left;
 	width: 250px;
 }
 
-div.justification{
+div.justification {
 	float: left;
+}
+
+div.collapsiblePanel {
+	float: left;
+	margin-left: 40px;
+	width: 400px;
+}
+
+div.collapsiblePanelTab {
+	background-color: #DDD;
+	border-right: solid 1px #000;
+	border-left: solid 1px #000;
+	border-bottom: solid 1px #000;
+	border-top: solid 1px #000;
+	cursor: pointer;
+	font-family: sans-serif;
+	font-size: 1.2em;
+	height:30px;
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+div.collapsiblePanelContent {
+	height: 400px;
+}
+
+div.candidate {
+	height: 120px;
+}
+
+div.candImage {
+	float: right;
+}
+
+div.candInfo {
+	float: left;
+}
+
+div.qInfo {
+	height: 270px;
+	overflow: auto;
+	width: 400px;
+	
 }
