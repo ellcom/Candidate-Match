@@ -298,6 +298,15 @@ class Database extends PDO {
 		$statement->execute();
 	}
 
+	function addQuestion($questionText, $category, $election) {
+		$statement = $this->prepare("INSERT INTO `questions` (`questionText`,`category`,`electionID`) VALUES (:questionText,:category,:election)");
+		
+		$statement->bindParam(':questionText', $questionText);
+		$statement->bindParam(':category', $category);
+		$statement->bindParam(':election', $election);
+		
+		$statement->execute();
+	}
 
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
