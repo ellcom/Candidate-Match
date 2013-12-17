@@ -14,6 +14,10 @@ $election = $database->lookupElectionWithId($electionID);
 $questions = $database->returnQuestionData($electionID);
 $eQuestions = $database->returnElectionQuestionData($electionID);
 
+// Timestamp
+$date = new DateTime();
+$timestamp = $date->getTimestamp();
+
 if(isset($_POST['submit'])) // IF questionnaire has been submitted
 {
 	if($timestamp > $election['timestamp'])
@@ -53,10 +57,6 @@ if(isset($_POST['submit'])) // IF questionnaire has been submitted
 	$allCandAnswers = $database->returnAnswerDataForCandidate($candidateID);
 	$elecCandAnswers = $database->returnElectionAnswerDataForCandidate($candidateID);
 }
-
-// Timestamp
-$date = new DateTime();
-$timestamp = $date->getTimestamp();
 
 // In $eQuestions rename 'questionID' to 'id'
 foreach ( $eQuestions as $k=>$v )
