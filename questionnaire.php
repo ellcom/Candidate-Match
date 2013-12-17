@@ -10,8 +10,13 @@ $elecCandAnswers = $database->returnElectionAnswerDataForCandidate($candidateID)
 
 // Election Info
 $electionID = $candidateInfo['electionID'];
+$election = $database->lookupElectionWithId($electionID);
 $questions = $database->returnQuestionData($electionID);
 $eQuestions = $database->returnElectionQuestionData($electionID);
+
+// Timestamp
+$date = new DateTime();
+$timestamp = $date->getTimestamp();
 
 // In $eQuestions rename 'questionID' to 'id' for smarty
 foreach ( $eQuestions as $k=>$v )
@@ -23,7 +28,7 @@ foreach ( $eQuestions as $k=>$v )
 if($session->checkSession()){
 	$smarty->assign('session',$_SESSION);
 	
-	if(false) // IF election is LIVE (meaning candidates should justify answers)
+	if($timestamp > $election['timestamp']) // IF election is LIVE (meaning candidates should justify answers)
 	{
 		$smarty->assign('questions', $eQuestions);
 		$smarty->assign('answers', $elecCandAnswers);

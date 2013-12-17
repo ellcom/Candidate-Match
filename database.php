@@ -246,8 +246,23 @@ class Database extends PDO {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	// Active: election that has not reached its end timestamp
 	function getActiveElection() {
-		$query = $this->query("SELECT * FROM `elections` WHERE active = 1 LIMIT 1");
+		$query = $this->prepare("SELECT * FROM `elections` WHERE end_timestamp > :timestamp;");
+		$date = new DateTime();
+		$timestamp = $date->getTimestamp();
+		$query->bindParam(':timestamp',$timestamp);
+		$query->execute();
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	// Live: election that has passed its start timestamp and not reached its end timestamp
+	function getLiveElection() {
+		$query = $this->prepare("SELECT * FROM `elections` WHERE end_timestamp > :timestamp AND timestamp < :timestamp;");
+		$date = new DateTime();
+		$timestamp = $date->getTimestamp();
+		$query->bindParam(':timestamp',$timestamp);
+		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 
