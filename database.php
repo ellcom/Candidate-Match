@@ -203,7 +203,7 @@ class Database extends PDO {
 	//
 	// Create / Modifiy Elections
 	//
-	function createElection($name, $endTimestamp,$active=true) {
+	function createElection($name,$openTimestamp,$endTimestamp) {
 		
 		$statement = $this->prepare("SELECT * FROM `elections` WHERE name = :name LIMIT 1");
 		$statement->bindParam(':name', $name);
@@ -214,12 +214,17 @@ class Database extends PDO {
 		}
 		
 		
-		$statement = $this->prepare("INSERT INTO `elections` (`name`,`timestamp`,`end_timestamp`,`active`) VALUES (:name,unix_timestamp(),:end_timestamp,:active)");
+		$statement = $this->prepare("INSERT INTO `elections` (`name`,`timestamp`,`end_timestamp`) VALUES (:name,:open_timestamp,:end_timestamp)");
 		$statement->bindParam(':name', $name);
 		$statement->bindParam(':end_timestamp', $endTimestamp);
-		$statement->bindParam(':active', $active);
+		$statement->bindParam(':open_timestamp', $openTimestamp);
+		$statement->execute();
 		
-		return $statement->execute();
+		$statement = $this->prepare("SELECT id FROM `elections` WHERE name = :name LIMIT 1");
+		$statement->bindParam(':name', $name);
+		$statement->execute();
+		
+		return $statement->fetchColumn();
 	}
 	
 	function listElections() {

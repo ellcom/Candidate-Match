@@ -13,28 +13,48 @@
 	<input name="name" type="text"/>
 	<div class="clear"></div>
 	
-	<label for="active">Close Hour: </label>
-	{html_select_time display_minutes=false display_seconds=false}
+	<br />	
+	{* Start Hour*}
+	<label for="Open_Time_Hour">Open Hour: </label>
+	{html_select_time prefix='Open_Time_' display_minutes=false display_seconds=false}
 	<div class="clear"></div>
 	
-	<label for="active">Close Day: </label>
-	{html_select_date display_months=false display_years=false }
+	<label for="Open_Date_Day">Open Day: </label>
+	{html_select_date prefix='Open_Date_' display_months=false display_years=false }
 	<div class="clear"></div>
 	
-	<label for="active">Close Month: </label>
-	{html_select_date display_days=false display_years=false }
+	<label for="Open_Date_Month">Open Month: </label>
+	{html_select_date prefix='Open_Date_' display_days=false display_years=false }
 	<div class="clear"></div>
 	
-	<label for="active">Close Year: </label>
-	{html_select_date display_days=false display_months=false end_year="+1" }
+	<label for="Open_Date_Year">Open Year: </label>
+	{html_select_date prefix='Open_Date_' display_days=false display_months=false end_year="+1" }
+	<div class="clear"></div>
+
+	<br />
+	{* Close Hour *}
+	<label for="Close_Time_Hour">Close Hour: </label>
+	{html_select_time prefix='Close_Time_' display_minutes=false display_seconds=false}
 	<div class="clear"></div>
 	
-	<label for="active">Active: </label>
+	<label for="Close_Date_Day">Close Day: </label>
+	{html_select_date prefix='Close_Date_' display_months=false display_years=false }
+	<div class="clear"></div>
+	
+	<label for="Close_Date_Month">Close Month: </label>
+	{html_select_date prefix='Close_Date_' display_days=false display_years=false }
+	<div class="clear"></div>
+	
+	<label for="Close_Date_Year">Close Year: </label>
+	{html_select_date prefix='Close_Date_' display_days=false display_months=false end_year="+1" }
+	<div class="clear"></div>
+	
+	{*<label for="active">Active: </label>
 	<select name="active">
 	  <option value="1">Yes</option>
 	  <option value="0">No</option>
 	</select>
-	<div class="clear"></div>
+	<div class="clear"></div>*}
 	
 	<button type="submit" name="submit">Create</button>
 	<div class="clear"></div>

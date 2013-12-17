@@ -10,10 +10,13 @@ if($session->checkSession() && $session->isAdmin()){
 		if(empty(trim($_POST['name']))){
 			$message = "Election must have a name";
 		}else{
-			$timestamp = mktime($_POST['Time_Hour'], 0, 0, $_POST['Date_Month'], $_POST['Date_Day'], $_POST['Date_Year']);
-		
-			if($database->createElection($_POST['name'],$timestamp,$_POST['active'])){
-				header("Location: ./dashboard.php");
+			$open_timestamp = mktime($_POST['Open_Time_Hour'], 0, 0, $_POST['Open_Date_Month'], $_POST['Open_Date_Day'], $_POST['Open_Date_Year']);
+			$close_timestamp = mktime($_POST['Close_Time_Hour'], 0, 0, $_POST['Close_Date_Month'], $_POST['Close_Date_Day'], $_POST['Close_Date_Year']);
+			
+			$insertID = $database->createElection($_POST['name'],$open_timestamp, $close_timestamp);
+			
+			if($insertID){
+				header("Location: ./electionprofiler.php?id=$insertID");
 				exit;
 			}else {
 				$message = "Election must have a unique name";
