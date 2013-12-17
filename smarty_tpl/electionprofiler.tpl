@@ -13,6 +13,7 @@
 	<li><a href="./editelection.php">Edit</a></li>
 </ul>
 
+<h2>Candidates</h2>
 <table>
 	<thead>
 		<tr>
@@ -40,6 +41,30 @@
 
 <button id="addCandidateToElection">Add Candidate(s)</button>
 <button id="removeCandidateFromElection" class="red">Remove Candidate(s)</button>
+<div class="clear"></div>
+<br />
+<br />
+<h2>Questions</h2>
+<table>
+	<thead>
+		<tr>
+			<th><input type="checkbox" name="all" id="tickbox_all_2">
+			<th id="th_qid">Question ID
+			<th id="th_qtext">Question
+			<th id="th_qcategory">Category
+	<tbody>
+		{foreach $questions as $row}<tr id="question_row_{$row.id}">
+			<td><input type="checkbox" name="election_question_{$row.id}" id="tickbox_question_{$row.id}">
+			<td>{$row.id}
+			<td>{$row.questionText}
+			<td>{$row.category}
+			
+		{/foreach}
+</table>
+
+<button id="addQuestion">Add Question(s)</button>
+<button id="removeQuestion" class="red">Remove Question(s)</button>
+<div class="clear"></div>
 
 </section>
 

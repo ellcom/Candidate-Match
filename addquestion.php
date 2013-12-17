@@ -25,6 +25,9 @@ if($session->checkSession() && $session->isAdmin()){
 		$smarty->assign('message',$message);
 	}
 	
+	if(isset($_GET['id'])){
+		$smarty->assign('election_id',$_GET['id']);
+	}
 	
 	$smarty->assign('elections',$database->listElections());
 	

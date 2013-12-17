@@ -20,7 +20,7 @@
 	<label for="type">Add to Election: </label>
 	<select name="election">
 	{foreach $elections as $election}
-	  <option value="{$election.id}">{$election.name}</option>
+	  <option value="{$election.id}" {if isset($election_id) && $election.id eq $election_id}selected{/if}>{$election.name}</option>
 	{/foreach}
 	</select>
 	<div class="clear"></div>

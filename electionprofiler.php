@@ -22,10 +22,11 @@ if($session->checkSession() && $session->isAdmin()){
 
 	// Gather Candidates on the election
 	$candidates = $database->candidatesForElectionId($_GET['id']);
-	
+	$questions = $database->listQuestionsForElection($_GET['id']);
 	
 	$smarty->assign('election', $election);
 	$smarty->assign('candidates', $candidates);
+	$smarty->assign('questions', $questions);
 	
 	
 	$smarty->assign('session',$_SESSION);

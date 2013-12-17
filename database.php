@@ -280,6 +280,15 @@ class Database extends PDO {
 		}
 	}
 	
+	function removeQuestionFromElection($ids,$election) {
+		$statement = $this->prepare("DELETE FROM questions WHERE id = :id");
+		
+		foreach($ids as $id){
+			$statement->bindParam(':id', $id);
+			$statement->execute();
+		}
+	}
+	
 	function listUnassignedCandidates() {
 		$query = $this->query("select u.username, u.id from users u WHERE u.type = 'candidate' and u.id NOT IN (SELECT c.userID FROM candidates c)");
 		return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -306,6 +315,16 @@ class Database extends PDO {
 		$statement->bindParam(':election', $election);
 		
 		$statement->execute();
+	}
+	
+	function listQuestionsForElection($id) {
+		$statement = $this->prepare("SELECT * FROM `questions` WHERE electionID = :id");
+		$statement->bindParam(':id', $id);
+		
+		$statement->execute();
+		
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	// =======================================================================================

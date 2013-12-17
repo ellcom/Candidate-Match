@@ -2,11 +2,20 @@ $(document).ready(function() {
 	
 	$('#tickbox_all').change(function() {
 		if($(this).is(':checked')){
-			$('input[type="checkbox"]').prop('checked', true)
+			$('table:first input[type="checkbox"]').prop('checked', true)
 		}else {
-			$('input[type="checkbox"]').prop('checked', false)
+			$('table:first input[type="checkbox"]').prop('checked', false)
 		}
 	})
+	
+	$('#tickbox_all_2').change(function() {
+		if($(this).is(':checked')){
+			$('table:not(:first) input[type="checkbox"]').prop('checked', true)
+		}else {
+			$('table:not(:first) input[type="checkbox"]').prop('checked', false)
+		}
+	})
+	
 	
 	$('thead tr th:not(:first-child)').click(function() {
 		var child = $(this).index()
