@@ -40,7 +40,7 @@
 		{/foreach}
 </table>
 
-<button id="addCandidateToElection">Add Candidate(s)</button>
+<button id="addCandidateToElection"{if $election.timestamp lte $smarty.now }disabled{/if}>Add Candidate(s)</button>
 <button id="removeCandidateFromElection" class="red">Remove Candidate(s)</button>
 <div class="clear"></div>
 <br />
@@ -53,18 +53,21 @@
 			<th id="th_qid">Question ID
 			<th id="th_qtext">Question
 			<th id="th_qcategory">Category
+			<th id="th_qdivisiveness">Divisiveness
 	<tbody>
 		{foreach $questions as $row}<tr id="question_row_{$row.id}">
 			<td><input type="checkbox" name="election_question_{$row.id}" id="tickbox_question_{$row.id}">
 			<td>{$row.id}
 			<td>{$row.questionText}
 			<td>{$row.category}
+			<td>{$row.divisiveness}
 			
 		{/foreach}
 </table>
 
-<button id="addQuestion">Add Question(s)</button>
-<button id="removeQuestion" class="red">Remove Question(s)</button>
+<button id="addQuestion"{if $election.timestamp lte $smarty.now } disabled{/if}>Add Question(s)</button>
+<button id="upload"{if $election.timestamp lte $smarty.now } disabled{/if}>Upload CSV Question(s)</button>
+<button id="removeQuestion"{if $election.timestamp lte $smarty.now } disabled{/if} class="red">Remove Question(s)</button>
 <div class="clear"></div>
 
 </section>
