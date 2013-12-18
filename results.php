@@ -24,7 +24,7 @@ if(isset($_POST['submit']))
 
 		array_push($data, array($row, $qArray));
 	}
-
+	
 	$smarty->assign('data', $data);
 
 	// Graph data

@@ -49,7 +49,7 @@
 			<div class="collapsiblePanelContent">
 				<div class="candidate">
 					<div class="candImage">
-						<img src="{$row.0.picture}" width="120" height="120"  alt=""/>
+						<img src="assets/test.jpg" width="120" height="120"  alt=""/>
 					</div>
 					<div class="candInfo">
 						<p>NAME: {$row.0.name}
