@@ -196,7 +196,7 @@ form#login button {
 	margin: 10px 0;
 }
 
-form#login select {
+form#login select, input[type='file'] {
 	float: right;
 	font-size: 16px;
 	line-height: 20px;
