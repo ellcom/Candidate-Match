@@ -272,6 +272,14 @@ class Database extends PDO {
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	function isElectionLive($id){
+		$statement = $this->prepare("SELECT if(e.timestamp <= unix_timestamp(),true,false) as live  FROM `questions` as q JOIN `elections` as e ON q.electionID = e.id WHERE e.id = :id GROUP by e.id");
+		$statement->bindParam(':id',$id);
+		$statement->execute();
+		
+		return $statement->fetchColumn();
+	}
+	
 	function changeElectionAttribute($id, $attr, $value){
 		$statement = $this->prepare("UPDATE `elections` SET $attr = :value WHERE id = :id LIMIT 1");
 		$statement->bindParam(':id',$id);
@@ -357,6 +365,8 @@ class Database extends PDO {
 		
 		return ($statement->rowCount() == 1);
 	}
+	
+	
 
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
