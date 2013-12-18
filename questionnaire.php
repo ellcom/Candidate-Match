@@ -11,8 +11,6 @@ $elecCandAnswers = $database->returnElectionAnswerDataForCandidate($candidateID)
 // Election Info from DB
 $electionID = $candidateInfo['electionID'];
 $election = $database->lookupElectionWithId($electionID);
-$questions = $database->returnQuestionData($electionID);
-$eQuestions = $database->returnElectionQuestionData($electionID);
 
 // Timestamp
 $date = new DateTime();
@@ -23,6 +21,9 @@ if($timestamp > $election['timestamp'])
 	$database->updateDivisiveness($electionID);
 	$database->selectElectionQuestions($electionID);
 }
+
+$questions = $database->returnQuestionData($electionID);
+$eQuestions = $database->returnElectionQuestionData($electionID);
 
 // In $eQuestions rename 'questionID' to 'id'
 foreach ( $eQuestions as $k=>$v )
