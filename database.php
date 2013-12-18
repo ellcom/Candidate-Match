@@ -415,19 +415,13 @@ class Database extends PDO {
 	// is no question answer for that candidate.
 	private function checkForAnswer($questionID, $candidateID) 
 	{
-		$check_query = $this->prepare("SELECT candidateID FROM candidateanswers WHERE questionID = :questionID AND candidateID = :candidateID");
+		$check_query = $this->prepare("SELECT * FROM candidateanswers WHERE questionID = :questionID AND candidateID = :candidateID");
 		$check_query->bindParam(':questionID', $questionID);
 		$check_query->bindParam(':candidateID', $candidateID);
 
 		$check_query->execute();
-		$check_query->fetchAll();
 
-		if(sizeof($check_query) == 0)
-		{
-			$check_query = NULL;
-		}
-
-		return $check_query;
+		return $check_query->rowCount();
 	}
 	// ==================================================
 	// END FUNCTION checkForAnswer
@@ -442,12 +436,16 @@ class Database extends PDO {
 	{
 		$present = $this->checkForAnswer($questionID, $candidateID);
 
-		if($present != NULL) // answer already exists, so update it
+		//echo 'p:'.$present;
+
+		if($present != 0) // answer already exists, so update it
 		{
+			//echo "already exists";
 			$this->updateAnswer($answer, $justification, $questionID, $candidateID);
 		}
 		else // answer doesnt exist, so add it.
 		{
+			//echo "adding";
 			$this->addAnswer($answer, $justification, $questionID, $candidateID);
 		}
 	}
@@ -640,11 +638,12 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing all q's
 	// from the db for printing out.
-	function returnQuestionData() 
+	function returnQuestionData($electionID) 
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT id, questionText FROM questions ORDER BY id ASC");
+			$statement = $this->prepare("SELECT id, questionText FROM questions WHERE electionID = :electionID ORDER BY id ASC");
+			$statement->bindParam(':electionID', $electionID);
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error

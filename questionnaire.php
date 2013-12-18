@@ -55,6 +55,7 @@ if($session->checkSession())
 				if($answer > 0 && $answer <= 5)
 				{
 					$database->insertAnswer($answer, $justification, $qid, $candidateID);
+					//echo 'ans:'.$answer.' just:'.$justification.' q:'.$qid.' cand:'.$candidateID;
 				}
 				else
 				{
