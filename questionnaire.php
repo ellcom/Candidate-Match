@@ -14,16 +14,22 @@ $election = $database->lookupElectionWithId($electionID);
 $questions = $database->returnQuestionData($electionID);
 $eQuestions = $database->returnElectionQuestionData($electionID);
 
+// Timestamp
+$date = new DateTime();
+$timestamp = $date->getTimestamp();
+
+if($timestamp > $election['timestamp'])
+{
+	$database->updateDivisiveness($electionID);
+	$database->selectElectionQuestions($electionID);
+}
+
 // In $eQuestions rename 'questionID' to 'id'
 foreach ( $eQuestions as $k=>$v )
 {
 	$eQuestions[$k] ['id'] = $eQuestions[$k] ['questionID'];
 	unset($eQuestions[$k]['questionID']);
 }
-
-// Timestamp
-$date = new DateTime();
-$timestamp = $date->getTimestamp();
 
 if($session->checkSession())
 {
@@ -65,6 +71,7 @@ if($session->checkSession())
 		}
 		
 		$smarty->assign('message', "Questionnaire Updated!");
+		$database->updateDivisiveness($electionID);
 		
 		// Refresh data
 		$allCandAnswers = $database->returnAnswerDataForCandidate($candidateID);

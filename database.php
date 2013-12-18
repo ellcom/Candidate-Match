@@ -1,5 +1,7 @@
 <?php 
 
+require_once('stats.php');
+
 class Database extends PDO {
 
 	function __construct() {
@@ -271,7 +273,7 @@ class Database extends PDO {
 		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
 	function isElectionLive($id){
 		$statement = $this->prepare("SELECT if(e.timestamp <= unix_timestamp(),true,false) as live  FROM `questions` as q JOIN `elections` as e ON q.electionID = e.id WHERE e.id = :id GROUP by e.id");
 		$statement->bindParam(':id',$id);
@@ -365,8 +367,6 @@ class Database extends PDO {
 		
 		return ($statement->rowCount() == 1);
 	}
-	
-	
 
 	// =======================================================================================
 	// ============================ ADDING/UPDATING DATA METHODS =============================
@@ -507,8 +507,6 @@ class Database extends PDO {
 	function updateDivisiveness($electionID)
 	{
 		$tally = $this->tallyCandidateAnswers($electionID);
-
-		print_r($tally);
 
 		foreach ($tally as $question) 
 		{			
@@ -976,57 +974,55 @@ class Database extends PDO {
 	// election
 	function selectElectionQuestions($electionID)
 	{
-		$questions = $this->returnDivisiveness($electionID);
 
-		function divisiveness_sort($a, $b)
+		$size_query = $this->prepare("SELECT * FROM electionquestions WHERE electionID = :electionID");
+		$size_query->bindParam(':electionID', $electionID);
+		$size_query->execute();
+
+		if ($size_query->rowCount() == 0) 
 		{
-			return $a['divisiveness']>$b['divisiveness'];
-		}
+			$questions = $this->returnDivisiveness($electionID);
 
-		usort($questions, 'divisiveness_sort');
-
-		print_r($questions);
-
-		foreach ($questions as $row) 
-		{
-			$questionID = $row['id'];
-
-			$check_query = $this->prepare("SELECT questionID FROM electionquestions WHERE questionID = :questionID");
-			$check_query->bindParam(':questionID', $questionID);
-			$check_query->execute();
-			$result = $check_query->fetchAll(PDO::FETCH_ASSOC);
-
-			$size_query = $this->prepare("SELECT * FROM electionquestions");
-			$size_query->execute();
-			$size = sizeof($size_query->fetchAll(PDO::FETCH_ASSOC));
-
-			// WILL BE 20 IN FINAL VERSION
-			if ($size >= 10) 
+			function divisiveness_sort($a, $b)
 			{
-				break;
+				return $a['divisiveness']>$b['divisiveness'];
 			}
 
-			if (sizeof($result) == 0)
-			{
-				$result = NULL;
-			}
+			usort($questions, 'divisiveness_sort');
 
-			if ($result == NULL)
+			foreach ($questions as $row) 
 			{
-				//echo 'adding<br>';
 				$questionID = $row['id'];
-				$electionID = $row['electionID'];
 
-				$add_query = $this->prepare("INSERT INTO electionquestions VALUES (NULL, :electionID, :questionID)");
-				$add_query->bindParam(':electionID', $electionID);
-				$add_query->bindParam(':questionID', $questionID);
-				$add_query->execute();
-			}
-			else
-			{
-				//echo 'already present<br>';
+				$check_query = $this->prepare("SELECT questionID FROM electionquestions WHERE questionID = :questionID");
+				$check_query->bindParam(':questionID', $questionID);
+				$check_query->execute();
+				$result = $check_query->fetchAll(PDO::FETCH_ASSOC);
+
+				$size_query = $this->prepare("SELECT * FROM electionquestions WHERE electionID = :electionID");
+				$size_query->bindParam(':electionID', $electionID);
+				$size_query->execute();
+
+				// WILL BE 20 IN FINAL VERSION
+				if ($size_query->rowCount() >= 20) 
+				{
+					break;
+				}
+				else
+				{
+					//echo 'adding<br>';
+					$questionID = $row['id'];
+					$electionID = $row['electionID'];
+
+					$add_query = $this->prepare("INSERT INTO electionquestions VALUES (NULL, :electionID, :questionID)");
+					$add_query->bindParam(':electionID', $electionID);
+					$add_query->bindParam(':questionID', $questionID);
+					$add_query->execute();
+				}
 			}
 		}
+
+		
 	}
 	// ==================================================
 	// END FUNCTION selectElectionQuestions
