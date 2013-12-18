@@ -630,11 +630,12 @@ class Database extends PDO {
 	// ==================================================
 	// returns a associative array containing all q's
 	// from the db for printing out.
-	function returnQuestionData() 
+	function returnQuestionData($electionID) 
 	{
 		try // query the database
 		{
-			$statement = $this->prepare("SELECT id, questionText FROM questions ORDER BY id ASC");
+			$statement = $this->prepare("SELECT id, questionText FROM questions WHERE electionID = :electionID ORDER BY id ASC");
+			$statement->bindParam(':electionID', $electionID);
 			$statement->execute();
 		}
 		catch (PDOexception $e) // or return an error
